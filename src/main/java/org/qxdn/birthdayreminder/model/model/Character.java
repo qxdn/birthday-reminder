@@ -1,16 +1,15 @@
 package org.qxdn.birthdayreminder.model.model;
 
 import lombok.Data;
-import org.qxdn.birthdayreminder.model.entity.CharacterContent;
+import lombok.EqualsAndHashCode;
+import org.qxdn.birthdayreminder.model.model.content.CharacterContent;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
-public class Character {
-
-    private Integer id;
+public class Character extends BaseModel {
 
     private String name;
 
@@ -27,8 +26,4 @@ public class Character {
     private CharacterContent content = new CharacterContent();
 
     private String comment;
-
-    private Date gmtCreate;
-
-    private Date gmtUpdate;
 }

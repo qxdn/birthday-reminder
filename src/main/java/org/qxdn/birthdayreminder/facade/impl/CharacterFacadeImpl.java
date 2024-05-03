@@ -2,9 +2,13 @@ package org.qxdn.birthdayreminder.facade.impl;
 
 import org.qxdn.birthdayreminder.facade.api.CharacterFacade;
 import org.qxdn.birthdayreminder.model.dto.request.AddCharacterRequest;
+import org.qxdn.birthdayreminder.model.dto.request.UpdateCharacterRequest;
+import org.qxdn.birthdayreminder.model.dto.response.BaseResponse;
 import org.qxdn.birthdayreminder.model.dto.response.vo.CharacterVO;
 import org.qxdn.birthdayreminder.model.model.Character;
 import org.qxdn.birthdayreminder.services.CharacterService;
+import org.qxdn.birthdayreminder.services.converter.CharacterConverter;
+import org.qxdn.birthdayreminder.utils.CheckUtils;
 import org.qxdn.birthdayreminder.utils.StreamUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,29 +25,28 @@ public class CharacterFacadeImpl implements CharacterFacade {
     private CharacterService characterService;
 
     @Override
-    public List<CharacterVO> searchCharacterWithBirthday(Date birthday) {
+    public BaseResponse<List<CharacterVO>> searchCharacterWithBirthday(Date birthday) {
         List<Character> characters = characterService.searchCharactersBirthDay(birthday);
-        return StreamUtils.map(characters, this::convertCharacter2VO);
+        List<CharacterVO> vos = StreamUtils.map(characters, CharacterConverter::convert2VO);
+        return new BaseResponse<>(vos);
     }
 
     @Override
-    public CharacterVO addCharacter(AddCharacterRequest request) {
+    public BaseResponse<CharacterVO> addCharacter(AddCharacterRequest request) {
+        //TODO: check request
         Character character = new Character();
         BeanUtils.copyProperties(request, character);
-        return convertCharacter2VO(characterService.addCharacter(character));
+        CharacterVO vo = CharacterConverter.convert2VO(characterService.addCharacter(character));
+        return new BaseResponse<>(vo);
     }
 
-    private CharacterVO convertCharacter2VO(Character character) {
-        CharacterVO characterVO = new CharacterVO();
-        BeanUtils.copyProperties(character, characterVO);
-        BeanUtils.copyProperties(character.getContent(), characterVO);
-        // 生日处理
-        StringBuilder sb = new StringBuilder();
-        if (Objects.nonNull(character.getBirthYear())) {
-            sb.append(character.getBirthYear()).append("-");
-        }
-        sb.append(character.getBirthMonth()).append("-").append(character.getBirthday());
-        characterVO.setBirthday(sb.toString());
-        return characterVO;
+    @Override
+    public BaseResponse<CharacterVO> updateCharacter(UpdateCharacterRequest request) {
+        //TODO: check request
+        CheckUtils.notNull(request.getId());
+        Character character = new Character();
+        BeanUtils.copyProperties(request, character);
+        CharacterVO vo = CharacterConverter.convert2VO(characterService.updateCharacter(character));
+        return new BaseResponse<>(vo);
     }
 }

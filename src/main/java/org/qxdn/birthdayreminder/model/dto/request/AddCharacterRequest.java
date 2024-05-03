@@ -8,15 +8,15 @@ import java.util.List;
 @Data
 public class AddCharacterRequest {
 
-    private String name;
+    protected String name;
 
-    private String originName;
+    protected String originName;
 
-    private List<String> otherName = new ArrayList<>();
+    protected List<String> otherName = new ArrayList<>();
 
-    private String birthday;
+    protected String birthday;
 
-    private List<String> images = new ArrayList<>();
+    protected List<String> images = new ArrayList<>();
 
-    private String comment;
+    protected String comment;
 }

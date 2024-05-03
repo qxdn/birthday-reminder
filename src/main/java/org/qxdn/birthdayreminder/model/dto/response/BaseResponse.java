@@ -30,7 +30,7 @@ public class BaseResponse<T> {
     /**
      * 是否成功
      */
-    private Boolean success = true;
+    private static Boolean success = true;
 
     private Long total;
 
@@ -63,5 +63,9 @@ public class BaseResponse<T> {
         this.errorCode = errorCode;
         this.errorMessage = errorMessage;
         this.success = false;
+    }
+
+    public static <T> BaseResponse<T> success(T data) {
+        return new BaseResponse<>(data);
     }
 }

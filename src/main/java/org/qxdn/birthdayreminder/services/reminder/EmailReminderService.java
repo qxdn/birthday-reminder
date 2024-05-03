@@ -1,7 +1,7 @@
 package org.qxdn.birthdayreminder.services.reminder;
 
 import org.qxdn.birthdayreminder.model.model.Character;
-import org.qxdn.birthdayreminder.model.model.ReminderContent;
+import org.qxdn.birthdayreminder.model.model.content.ReminderContent;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

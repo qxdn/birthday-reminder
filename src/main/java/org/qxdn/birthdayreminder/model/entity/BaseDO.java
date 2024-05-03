@@ -15,7 +15,7 @@ public class BaseDO {
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    protected Integer id;
+    protected Long id;
 
     /**
      * 创建时间

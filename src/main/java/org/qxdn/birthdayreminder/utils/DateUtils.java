@@ -8,7 +8,7 @@ import java.util.Date;
 
 public class DateUtils {
 
-    private static SimpleDateFormat yMd = new SimpleDateFormat("yyyy-MM-dd");
+    private static final SimpleDateFormat yMd = new SimpleDateFormat("yyyy-MM-dd");
     public static Date now(){
         return new Date();
     }
@@ -29,4 +29,9 @@ public class DateUtils {
         calendar.setTime(date);
         return  calendar.get(Calendar.MONTH)+1;
     }
+
+    public static Date addDays(Date date, int days){
+        return new Date(date.getTime() + (long) days * 24 * 60 * 60 * 1000);
+    }
+
 }

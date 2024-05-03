@@ -1,4 +1,4 @@
-package org.qxdn.birthdayreminder.model.entity;
+package org.qxdn.birthdayreminder.model.model.content;
 
 import lombok.Data;
 

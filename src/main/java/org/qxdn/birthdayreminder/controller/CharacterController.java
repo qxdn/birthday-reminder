@@ -1,14 +1,13 @@
 package org.qxdn.birthdayreminder.controller;
 
 import org.qxdn.birthdayreminder.facade.api.CharacterFacade;
+import org.qxdn.birthdayreminder.model.dto.request.AddCharacterRequest;
+import org.qxdn.birthdayreminder.model.dto.request.UpdateCharacterRequest;
 import org.qxdn.birthdayreminder.model.dto.response.BaseResponse;
 import org.qxdn.birthdayreminder.model.dto.response.vo.CharacterVO;
 import org.qxdn.birthdayreminder.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
@@ -28,7 +27,27 @@ public class CharacterController {
         if (Objects.nonNull(birthday)){
             date = DateUtils.parseYMD(birthday);
         }
-        List<CharacterVO> characterVOS = characterFacade.searchCharacterWithBirthday(date);
-        return new BaseResponse<>(characterVOS);
+        return characterFacade.searchCharacterWithBirthday(date);
+    }
+
+
+    /**
+     * 添加角色
+     * @param request
+     * @return
+     */
+    @PostMapping("/add")
+    public BaseResponse<CharacterVO> addCharacter(@RequestBody AddCharacterRequest request) {
+        return characterFacade.addCharacter(request);
+    }
+
+    /**
+     * 更新角色信息
+     * @param request
+     * @return
+     */
+    @PostMapping("/update")
+    public BaseResponse<CharacterVO> updateCharacter(@RequestBody UpdateCharacterRequest request) {
+        return characterFacade.updateCharacter(request);
     }
 }

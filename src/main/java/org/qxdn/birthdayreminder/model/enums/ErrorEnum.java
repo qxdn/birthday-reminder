@@ -6,10 +6,11 @@ import lombok.Getter;
 public enum ErrorEnum {
     SUCCESS("0","成功"),
 
-    FAIL("100","失败"),
+    FAIL("1000","失败"),
 
+    LOGIN_FAIL("100","用户名或密码错误"),
 
-
+    CHECK_FAIL("200","校验失败"),
     ;
     private final String code;
 
