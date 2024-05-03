@@ -55,7 +55,7 @@ public class CharacterDO extends BaseDO {
     /**
      * 角色生日 年
      */
-    @Column(name = "birth_year",nullable = true)
+    @Column(name = "birth_year")
     private Integer birthYear;
     /**
      * 大字段，保存内容

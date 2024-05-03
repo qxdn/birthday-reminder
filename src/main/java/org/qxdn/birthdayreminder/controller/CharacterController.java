@@ -33,8 +33,8 @@ public class CharacterController {
 
     /**
      * 添加角色
-     * @param request
-     * @return
+     * @param request 请求参数
+     * @return 返回结果
      */
     @PostMapping("/add")
     public BaseResponse<CharacterVO> addCharacter(@RequestBody AddCharacterRequest request) {
@@ -43,8 +43,8 @@ public class CharacterController {
 
     /**
      * 更新角色信息
-     * @param request
-     * @return
+     * @param request 请求参数
+     * @return 返回结果
      */
     @PostMapping("/update")
     public BaseResponse<CharacterVO> updateCharacter(@RequestBody UpdateCharacterRequest request) {
