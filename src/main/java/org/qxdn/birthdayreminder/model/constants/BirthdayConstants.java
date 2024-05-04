@@ -8,5 +8,7 @@ public class BirthdayConstants {
 
     public static final String JWT_ISSUER = "qxdn";
 
+    public static final String JWT_HEADER = "Authorization";
+
     public static final Integer PASSWORD_SALT = 10;
 }
