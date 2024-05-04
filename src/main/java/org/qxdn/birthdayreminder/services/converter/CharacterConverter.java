@@ -16,10 +16,8 @@ import org.qxdn.birthdayreminder.utils.StringUtils;
 import java.util.List;
 import java.util.Objects;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface CharacterConverter {
-
-    CharacterConverter INSTANCE = Mappers.getMapper(CharacterConverter.class);
 
     @Mapping(target = "content",expression = "java(json2map(characterDO.getContent()))")
     @Mapping(target = "otherName", expression = "java(otherName2List(characterDO.getOtherName()))")

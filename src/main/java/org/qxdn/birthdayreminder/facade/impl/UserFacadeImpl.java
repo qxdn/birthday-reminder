@@ -25,6 +25,9 @@ public class UserFacadeImpl implements UserFacade {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private UserConverter userConverter;
+
     @Override
     public BaseResponse<LoginVO> login(LoginRequest request) {
         CheckUtils.notBlank(request.getName(),request.getPassword());
@@ -33,7 +36,7 @@ public class UserFacadeImpl implements UserFacade {
             throw new BirthdayException(ErrorEnum.LOGIN_FAIL);
         }
         LoginVO loginVO = new LoginVO();
-        UserVO userVO = UserConverter.INSTANCE.convert2VO(user);
+        UserVO userVO = userConverter.convert2VO(user);
         String token = JWTUtils.generateToken(user.getId());
         loginVO.setUser(userVO);
         loginVO.setToken(token);
@@ -47,8 +50,8 @@ public class UserFacadeImpl implements UserFacade {
         if (Objects.nonNull(user)){
             throw new BirthdayException(ErrorEnum.USER_EXIST);
         }
-        user = UserConverter.INSTANCE.registerRequest2Model(request);
+        user = userConverter.registerRequest2Model(request);
         user = userService.save(user);
-        return BaseResponse.success(UserConverter.INSTANCE.convert2VO(user));
+        return BaseResponse.success(userConverter.convert2VO(user));
     }
 }

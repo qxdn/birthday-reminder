@@ -19,13 +19,16 @@ public class CharacterService {
     @Autowired
     private CharacterRepository characterRepository;
 
+    @Autowired
+    private CharacterConverter characterConverter;
+
     /** 搜寻生日
      * @param date
      * @return
      */
     public List<Character> searchCharactersBirthDay(Date date) {
         List<CharacterDO> characterDOS =  characterRepository.findCharactersWithBirthday(DateUtils.getMonth(date),DateUtils.getDay(date));
-        return StreamUtils.map(characterDOS, CharacterConverter.INSTANCE::convert2Model);
+        return StreamUtils.map(characterDOS, characterConverter::convert2Model);
     }
 
     /**
@@ -34,8 +37,8 @@ public class CharacterService {
      * @return 修改后角色
      */
     public Character addCharacter(Character character) {
-       CharacterDO characterDO = characterRepository.save(CharacterConverter.INSTANCE.convert2DO(character));
-       return CharacterConverter.INSTANCE.convert2Model(characterDO);
+       CharacterDO characterDO = characterRepository.save(characterConverter.convert2DO(character));
+       return characterConverter.convert2Model(characterDO);
     }
 
     /**
@@ -44,8 +47,8 @@ public class CharacterService {
      * @return 修改后角色
      */
     public Character updateCharacter(Character character) {
-       CharacterDO characterDO = characterRepository.save(CharacterConverter.INSTANCE.convert2DO(character));
-       return CharacterConverter.INSTANCE.convert2Model(characterDO);
+       CharacterDO characterDO = characterRepository.save(characterConverter.convert2DO(character));
+       return characterConverter.convert2Model(characterDO);
     }
 
 }

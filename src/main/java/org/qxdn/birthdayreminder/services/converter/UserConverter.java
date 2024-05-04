@@ -10,10 +10,8 @@ import org.qxdn.birthdayreminder.model.entity.UserDO;
 import org.qxdn.birthdayreminder.model.model.User;
 import org.qxdn.birthdayreminder.utils.PasswordUtils;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface UserConverter {
-
-    UserConverter INSTANCE = Mappers.getMapper(UserConverter.class);
 
     User convert2Model(UserDO userDO);
 
