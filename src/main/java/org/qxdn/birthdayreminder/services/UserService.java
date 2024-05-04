@@ -16,13 +16,19 @@ public class UserService {
 
     public User getUserById(Long id){
         UserDO userDO = userRepository.findById(id).orElse(null);
-        return UserConverter.convert2Model(userDO);
+        return UserConverter.INSTANCE.convert2Model(userDO);
     }
 
 
     public User getUserByName(String name){
         UserDO userDO = userRepository.findByName(name);
-        return UserConverter.convert2Model(userDO);
+        return UserConverter.INSTANCE.convert2Model(userDO);
     }
 
+
+    public User save(User user){
+        UserDO userDO = UserConverter.INSTANCE.convert2DO(user);
+        userDO = userRepository.save(userDO);
+        return UserConverter.INSTANCE.convert2Model(userDO);
+    }
 }

@@ -2,6 +2,7 @@ package org.qxdn.birthdayreminder.facade.impl;
 
 import org.qxdn.birthdayreminder.facade.api.UserFacade;
 import org.qxdn.birthdayreminder.model.dto.request.LoginRequest;
+import org.qxdn.birthdayreminder.model.dto.request.RegisterRequest;
 import org.qxdn.birthdayreminder.model.dto.response.BaseResponse;
 import org.qxdn.birthdayreminder.model.dto.response.vo.LoginVO;
 import org.qxdn.birthdayreminder.model.dto.response.vo.UserVO;
@@ -28,14 +29,26 @@ public class UserFacadeImpl implements UserFacade {
     public BaseResponse<LoginVO> login(LoginRequest request) {
         CheckUtils.notBlank(request.getName(),request.getPassword());
         User user = userService.getUserByName(request.getName());
-        if (Objects.isNull(user) || PasswordUtils.check(request.getPassword(),user.getPassword())){
+        if (Objects.isNull(user) || !PasswordUtils.check(request.getPassword(),user.getPassword())){
             throw new BirthdayException(ErrorEnum.LOGIN_FAIL);
         }
         LoginVO loginVO = new LoginVO();
-        UserVO userVO = UserConverter.convert2VO(user);
+        UserVO userVO = UserConverter.INSTANCE.convert2VO(user);
         String token = JWTUtils.generateToken(user.getId());
         loginVO.setUser(userVO);
         loginVO.setToken(token);
         return BaseResponse.success(loginVO);
+    }
+
+    @Override
+    public BaseResponse<UserVO> register(RegisterRequest request) {
+        CheckUtils.notBlank(request.getName(),request.getPassword());
+        User user = userService.getUserByName(request.getName());
+        if (Objects.nonNull(user)){
+            throw new BirthdayException(ErrorEnum.USER_EXIST);
+        }
+        user = UserConverter.INSTANCE.registerRequest2Model(request);
+        user = userService.save(user);
+        return BaseResponse.success(UserConverter.INSTANCE.convert2VO(user));
     }
 }

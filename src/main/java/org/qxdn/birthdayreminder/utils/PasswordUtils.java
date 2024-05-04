@@ -6,7 +6,7 @@ import org.qxdn.birthdayreminder.model.constants.BirthdayConstants;
 public class PasswordUtils {
 
     public static String encode(String password) {
-        return BCrypt.hashpw(password, BirthdayConstants.PASSWORD_SALT);
+        return BCrypt.hashpw(password, BCrypt.gensalt(BirthdayConstants.PASSWORD_SALT));
     }
 
     public static boolean check(String password, String hashedPassword) {

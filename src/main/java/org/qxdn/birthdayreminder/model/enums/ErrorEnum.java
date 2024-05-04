@@ -9,6 +9,7 @@ public enum ErrorEnum {
     FAIL("1000","失败"),
 
     LOGIN_FAIL("100","用户名或密码错误"),
+    USER_EXIST("101","用户已存在"),
 
     CHECK_FAIL("200","校验失败"),
     ;

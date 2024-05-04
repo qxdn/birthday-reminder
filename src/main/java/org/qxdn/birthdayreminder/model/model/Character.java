@@ -17,11 +17,16 @@ public class Character extends BaseModel {
 
     private List<String> otherName = new ArrayList<>();
 
+    /**
+     * 角色性别 考虑到性别秀吉，还是直接中文
+     */
+    private String gender;
+
     private Integer birthYear;
 
     private Integer birthMonth;
 
-    private Integer birthday;
+    private Integer birthDay;
 
     private CharacterContent content = new CharacterContent();
 

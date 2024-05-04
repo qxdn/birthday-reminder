@@ -28,6 +28,6 @@ public class UserVO {
     /**
      * 修改时间
      */
-    private Date gmtModified;
+    private Date gmtUpdate;
 
 }
