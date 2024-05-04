@@ -2,6 +2,7 @@ package org.qxdn.birthdayreminder.services.converter;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.Named;
 import org.mapstruct.factory.Mappers;
 import org.qxdn.birthdayreminder.model.constants.BirthdayConstants;
 import org.qxdn.birthdayreminder.model.dto.request.AddCharacterRequest;
@@ -33,9 +34,15 @@ public interface CharacterConverter {
 
 
     @Mapping(target = "content",source = ".")
+    @Mapping(target = "birthDay", source = "birthday", qualifiedByName = "birthday2day")
+    @Mapping(target = "birthMonth", source = "birthday", qualifiedByName = "birthday2month")
+    @Mapping(target = "birthYear", source = "birthday", qualifiedByName = "birthday2year")
     Character AddCharacterRequest2Model(AddCharacterRequest request);
 
     @Mapping(target = "content",source = ".")
+    @Mapping(target = "birthDay", source = "birthday", qualifiedByName = "birthday2day")
+    @Mapping(target = "birthMonth", source = "birthday", qualifiedByName = "birthday2month")
+    @Mapping(target = "birthYear", source = "birthday", qualifiedByName = "birthday2year")
     Character updateCharacterRequest2Model(UpdateCharacterRequest request);
 
     default List<String> otherName2List(String otherName) {
@@ -62,5 +69,35 @@ public interface CharacterConverter {
         }
         sb.append(character.getBirthMonth()).append("-").append(character.getBirthDay());
         return sb.toString();
+    }
+
+    @Named("birthday2day")
+    default Integer birthday2day(String birthday) {
+        String[] split = birthday.split("-");
+        if (split.length == 2) {
+            return Integer.parseInt(birthday.split("-")[1]);
+        } else {
+            return Integer.parseInt(birthday.split("-")[2]);
+        }
+    }
+
+    @Named("birthday2month")
+    default Integer birthday2month(String birthday) {
+        String[] split = birthday.split("-");
+        if (split.length == 2) {
+            return Integer.parseInt(birthday.split("-")[0]);
+        } else {
+            return Integer.parseInt(birthday.split("-")[1]);
+        }
+    }
+
+    @Named("birthday2year")
+    default Integer birthday2year(String birthday) {
+        String[] split = birthday.split("-");
+        if (split.length == 2) {
+            return null;
+        } else {
+            return Integer.parseInt(birthday.split("-")[0]);
+        }
     }
 }

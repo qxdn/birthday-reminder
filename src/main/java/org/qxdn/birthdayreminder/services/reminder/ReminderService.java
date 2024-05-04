@@ -7,5 +7,7 @@ import java.util.List;
 
 public interface ReminderService {
 
+    String getName();
+
     void remind(List<Character> characters, ReminderContent content);
 }

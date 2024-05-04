@@ -34,3 +34,5 @@ build/
 
 # dev profile
 application-dev.yml
+
+/logs

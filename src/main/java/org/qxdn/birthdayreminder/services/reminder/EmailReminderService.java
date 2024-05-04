@@ -1,9 +1,11 @@
 package org.qxdn.birthdayreminder.services.reminder;
 
+import lombok.extern.slf4j.Slf4j;
 import org.qxdn.birthdayreminder.model.model.Character;
 import org.qxdn.birthdayreminder.model.model.content.ReminderContent;
 import org.qxdn.birthdayreminder.services.EmailService;
 import org.qxdn.birthdayreminder.utils.DateUtils;
+import org.qxdn.birthdayreminder.utils.LogUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
@@ -15,6 +17,7 @@ import java.util.List;
 /**
  * 邮件发送提醒
  */
+@Slf4j
 @Service
 public class EmailReminderService implements ReminderService{
 
@@ -25,8 +28,14 @@ public class EmailReminderService implements ReminderService{
     private TemplateEngine templateEngine;
 
     @Override
+    public String getName() {
+        return "邮件提醒服务";
+    }
+
+    @Override
     public void remind(List<Character> characters, ReminderContent content) {
         String text = createBirthdayNotifyText(characters);
+        LogUtils.info(log, "Send email to {} with content: {}", content.getTo());
         emailService.sendHTMLMessage(content.getFrom(), content.getTo(), content.getSubject(), text);
     }
 
