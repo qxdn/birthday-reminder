@@ -30,6 +30,12 @@ public class DateUtils {
         return  calendar.get(Calendar.MONTH)+1;
     }
 
+    public static int getYear(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        return calendar.get(Calendar.YEAR);
+    }
+
     public static Date addDays(Date date, int days){
         return new Date(date.getTime() + (long) days * 24 * 60 * 60 * 1000);
     }
