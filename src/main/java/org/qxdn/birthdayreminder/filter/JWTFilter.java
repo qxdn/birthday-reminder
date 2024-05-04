@@ -17,10 +17,12 @@ import org.qxdn.birthdayreminder.utils.LogUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
+import org.springframework.util.AntPathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Objects;
 
 @Slf4j
@@ -33,6 +35,9 @@ public class JWTFilter extends OncePerRequestFilter {
     @Autowired
     @Qualifier("handlerExceptionResolver")
     private HandlerExceptionResolver resolver;
+
+
+    private List<String> notFilterPath = List.of("/user/login", "/character/birthday");
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String jwt = request.getHeader(BirthdayConstants.JWT_HEADER);
@@ -62,5 +67,12 @@ public class JWTFilter extends OncePerRequestFilter {
             // 移除登录
             UserSessionContext.remove();
         }
+    }
+
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+        String path = request.getRequestURI();
+        AntPathMatcher antPathMatcher = new AntPathMatcher();
+        return notFilterPath.stream().anyMatch(p -> antPathMatcher.match(p, path));
     }
 }
