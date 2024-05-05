@@ -1,6 +1,9 @@
 package org.qxdn.birthdayreminder.model.model.content;
 
 import lombok.Data;
+import org.qxdn.birthdayreminder.model.model.Subscriber;
+
+import java.util.List;
 
 /**
  * 提醒内容上下文
@@ -12,17 +15,12 @@ public class ReminderContent {
 
 
     /**
-     *  接收者
-     */
-    private String to;
-
-    /**
      * 标题
      */
     private String subject;
 
     /**
-     * 发送者
+     * 订阅者
      */
-    private String from;
+    List<Subscriber> subscribers;
 }

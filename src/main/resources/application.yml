@@ -8,6 +8,18 @@ spring:
     username:
     password:
 
+  mail:
+    host:
+    port:
+    username:
+    password:
+
+  quartz:
+    job-store-type: jdbc
 
 
-
+springdoc:
+  api-docs:
+    enabled: false
+  swagger-ui:
+    enabled: false

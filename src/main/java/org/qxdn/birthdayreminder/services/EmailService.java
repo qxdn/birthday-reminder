@@ -4,13 +4,12 @@ import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import org.qxdn.birthdayreminder.model.enums.ErrorEnum;
 import org.qxdn.birthdayreminder.model.exception.BirthdayException;
-import org.qxdn.birthdayreminder.model.model.Character;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 
 @Service
 public class EmailService {
@@ -18,7 +17,13 @@ public class EmailService {
     @Autowired
     private JavaMailSender emailSender;
 
-    public void sendHTMLMessage(String from,String to, String subject, String text) {
+    /**
+     * 发送方
+     */
+    @Value("${spring.mail.username}")
+    private String from;
+
+    public void sendHTMLMessage(String to, String subject, String text) {
         MimeMessage message = emailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message);
         try {

@@ -2,6 +2,7 @@ package org.qxdn.birthdayreminder.services.reminder;
 
 import lombok.extern.slf4j.Slf4j;
 import org.qxdn.birthdayreminder.model.model.Character;
+import org.qxdn.birthdayreminder.model.model.Subscriber;
 import org.qxdn.birthdayreminder.model.model.content.ReminderContent;
 import org.qxdn.birthdayreminder.services.EmailService;
 import org.qxdn.birthdayreminder.utils.DateUtils;
@@ -13,6 +14,7 @@ import org.thymeleaf.context.Context;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * 邮件发送提醒
@@ -35,8 +37,11 @@ public class EmailReminderService implements ReminderService{
     @Override
     public void remind(List<Character> characters, ReminderContent content) {
         String text = createBirthdayNotifyText(characters);
-        LogUtils.info(log, "Send email to {} with content: {}", content.getTo());
-        emailService.sendHTMLMessage(content.getFrom(), content.getTo(), content.getSubject(), text);
+        LogUtils.info(log, "Send email at {}", DateUtils.now());
+        List<Subscriber> subscribers = content.getSubscribers();
+        subscribers.stream().parallel()
+                .filter(subscriber -> Objects.nonNull(subscriber.getEmail())) // email过滤
+                .forEach(subscriber -> emailService.sendHTMLMessage(subscriber.getEmail(), content.getSubject(), text));
     }
 
     public String createBirthdayNotifyText(List<Character> characters) {
