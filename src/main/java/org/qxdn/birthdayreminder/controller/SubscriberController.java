@@ -19,12 +19,12 @@ public class SubscriberController {
     private SubscriberFacade subscriberFacade;
 
     @PostMapping("/add")
-    public BaseResponse<SubscriberVO> addSubscriber(AddSubscriberRequest request) {
+    public BaseResponse<SubscriberVO> addSubscriber(@RequestBody AddSubscriberRequest request) {
         return subscriberFacade.addSubscriber(request);
     }
 
     @PostMapping("/update")
-    public BaseResponse<SubscriberVO> updateSubscriber(UpdateSubscriberRequest request) {
+    public BaseResponse<SubscriberVO> updateSubscriber(@RequestBody UpdateSubscriberRequest request) {
         return subscriberFacade.updateSubscriber(request);
     }
 

@@ -53,7 +53,13 @@ public class UserService {
      */
     public User save(User user){
         UserDO userDO = userConverter.convert2DO(user);
-        userDO = userRepository.save(userDO);
+        userDO = userRepository.saveAndFlush(userDO);
+        return userConverter.convert2Model(userDO);
+    }
+
+    public User update(User user){
+        UserDO userDO = userConverter.convert2DO(user);
+        userDO = userRepository.saveAndFlush(userDO);
         return userConverter.convert2Model(userDO);
     }
 

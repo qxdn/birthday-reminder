@@ -7,6 +7,7 @@ import org.qxdn.birthdayreminder.model.constants.BirthdayConstants;
 import org.qxdn.birthdayreminder.model.dto.request.LoginRequest;
 import org.qxdn.birthdayreminder.model.dto.request.QueryUserRequest;
 import org.qxdn.birthdayreminder.model.dto.request.RegisterRequest;
+import org.qxdn.birthdayreminder.model.dto.request.UpdateUserRequest;
 import org.qxdn.birthdayreminder.model.dto.response.BaseResponse;
 import org.qxdn.birthdayreminder.model.dto.response.vo.LoginVO;
 import org.qxdn.birthdayreminder.model.dto.response.vo.UserSessionVO;
@@ -49,6 +50,15 @@ public class UserController {
         return userFacade.register(request);
     }
 
+    /**
+     * 更新用户请求
+     * @param request 请求参数
+     * @return 返回结果
+     */
+    @PostMapping("/update")
+    public BaseResponse<UserVO> updateUser(@RequestBody UpdateUserRequest request) {
+        return userFacade.updateUser( request);
+    }
 
     @GetMapping("/current")
     public BaseResponse<UserVO> queryCurrentUser() {

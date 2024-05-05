@@ -5,6 +5,7 @@ import org.qxdn.birthdayreminder.facade.api.UserFacade;
 import org.qxdn.birthdayreminder.model.dto.request.LoginRequest;
 import org.qxdn.birthdayreminder.model.dto.request.QueryUserRequest;
 import org.qxdn.birthdayreminder.model.dto.request.RegisterRequest;
+import org.qxdn.birthdayreminder.model.dto.request.UpdateUserRequest;
 import org.qxdn.birthdayreminder.model.dto.response.BaseResponse;
 import org.qxdn.birthdayreminder.model.dto.response.vo.LoginVO;
 import org.qxdn.birthdayreminder.model.dto.response.vo.UserVO;
@@ -56,6 +57,14 @@ public class UserFacadeImpl implements UserFacade {
         }
         user = userConverter.registerRequest2Model(request);
         user = userService.save(user);
+        return BaseResponse.success(userConverter.convert2VO(user));
+    }
+
+    @Override
+    public BaseResponse<UserVO> updateUser( UpdateUserRequest request) {
+        User user = userService.getUserById(request.getUserId());
+        user.setAvatar(request.getAvatar());
+        user = userService.update(user);
         return BaseResponse.success(userConverter.convert2VO(user));
     }
 
