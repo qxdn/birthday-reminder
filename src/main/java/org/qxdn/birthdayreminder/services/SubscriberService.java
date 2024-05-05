@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
@@ -40,15 +41,17 @@ public class SubscriberService {
         SubscriberDO subscriberDO =  subscriberRepository.findById(id).orElse(null);
         return subscriberConverter.convert2Model(subscriberDO);
     }
+    @Transactional
     public Subscriber save(Subscriber subscriber) {
         SubscriberDO subscriberDO = subscriberConverter.convert2DO(subscriber);
-        subscriberDO = subscriberRepository.save(subscriberDO);
+        subscriberDO = subscriberRepository.saveAndFlush(subscriberDO);
         return subscriberConverter.convert2Model(subscriberDO);
     }
 
+    @Transactional
     public Subscriber update(Subscriber subscriber) {
         SubscriberDO subscriberDO = subscriberConverter.convert2DO(subscriber);
-        subscriberDO = subscriberRepository.save(subscriberDO);
+        subscriberDO = subscriberRepository.saveAndFlush(subscriberDO);
         return subscriberConverter.convert2Model(subscriberDO);
     }
 

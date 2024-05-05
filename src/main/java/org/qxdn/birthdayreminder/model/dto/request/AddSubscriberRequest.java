@@ -6,4 +6,6 @@ import lombok.Data;
 public class AddSubscriberRequest {
 
     private String email;
+
+    private boolean active;
 }

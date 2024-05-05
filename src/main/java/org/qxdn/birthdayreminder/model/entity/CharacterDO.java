@@ -3,6 +3,7 @@ package org.qxdn.birthdayreminder.model.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Index;
 import jakarta.persistence.Table;
 import lombok.*;
 import org.hibernate.proxy.HibernateProxy;
@@ -14,7 +15,12 @@ import java.util.Objects;
 @ToString
 @RequiredArgsConstructor
 @Entity
-@Table(name = "characters")
+@Table(name = "characters",indexes = {
+        @Index(name = "idx_name",columnList = "name"),
+        @Index(name = "idx_origin_name",columnList = "origin_name"),
+        @Index(name = "idx_birthday",columnList = "birth_month"),
+        @Index(name = "idx_birthday",columnList = "birth_day"),
+})
 public class CharacterDO extends BaseDO {
 
     /**

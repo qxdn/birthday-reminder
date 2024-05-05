@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class SubscriberFacadeImpl implements SubscriberFacade {
@@ -28,6 +29,9 @@ public class SubscriberFacadeImpl implements SubscriberFacade {
     @Override
     public BaseResponse<SubscriberVO> addSubscriber(AddSubscriberRequest request) {
         Subscriber subscriber = subscriberConverter.AddSubscriberRequest2Model(request);
+        if (Objects.isNull(subscriber.getActive())) {
+            subscriber.setActive(false);
+        }
         subscriber = subscriberService.save(subscriber);
         return BaseResponse.success(subscriberConverter.convert2VO(subscriber));
     }

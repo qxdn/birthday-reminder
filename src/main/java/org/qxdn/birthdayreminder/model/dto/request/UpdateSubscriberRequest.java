@@ -9,7 +9,7 @@ public class UpdateSubscriberRequest extends AddSubscriberRequest{
 
     private Long id;
 
-    private boolean active;
+
 
 
 }
