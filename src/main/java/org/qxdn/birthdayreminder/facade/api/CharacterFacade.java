@@ -18,4 +18,6 @@ public interface CharacterFacade {
     BaseResponse<CharacterVO> addCharacter(AddCharacterRequest request);
 
     BaseResponse<CharacterVO> updateCharacter(UpdateCharacterRequest request);
+
+    BaseResponse<CharacterVO> queryById(Long id);
 }

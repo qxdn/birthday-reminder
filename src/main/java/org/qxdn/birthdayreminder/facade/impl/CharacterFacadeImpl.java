@@ -62,4 +62,11 @@ public class CharacterFacadeImpl implements CharacterFacade {
         CharacterVO vo = characterConverter.convert2VO(character);
         return new BaseResponse<>(vo);
     }
+
+    @Override
+    public BaseResponse<CharacterVO> queryById(Long id) {
+        Character character = characterService.queryById(id);
+        CharacterVO vo = characterConverter.convert2VO(character);
+        return new BaseResponse<>(vo);
+    }
 }

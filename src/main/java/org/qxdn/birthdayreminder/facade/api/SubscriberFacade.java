@@ -30,4 +30,11 @@ public interface SubscriberFacade {
      * @return 订阅者列表
      */
     BaseResponse<List<SubscriberVO>> querySubscribers(QuerySubscriberRequest request);
+
+    /**
+     * 根据id查询订阅者
+     * @param id 订阅者id
+     * @return 订阅者信息
+     */
+    BaseResponse<SubscriberVO> queryById(Long id);
 }

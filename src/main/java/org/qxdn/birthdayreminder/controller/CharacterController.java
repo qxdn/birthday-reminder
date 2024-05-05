@@ -56,4 +56,9 @@ public class CharacterController {
     public BaseResponse<CharacterVO> updateCharacter(@RequestBody UpdateCharacterRequest request) {
         return characterFacade.updateCharacter(request);
     }
+
+    @GetMapping("/{id}")
+    public BaseResponse<CharacterVO> queryById(@PathVariable Long id) {
+        return characterFacade.queryById(id);
+    }
 }

@@ -61,6 +61,11 @@ public class UserController {
         return userFacade.queryUserList(request);
     }
 
+    @GetMapping("/{id}")
+    public BaseResponse<UserVO> queryById(@PathVariable Long id) {
+        return userFacade.queryUserById(id);
+    }
+
     @RequestMapping("/logout")
     public BaseResponse<Void> logout() {
         UserSessionContext.remove();

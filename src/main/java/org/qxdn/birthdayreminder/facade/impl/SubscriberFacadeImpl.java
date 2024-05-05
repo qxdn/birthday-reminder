@@ -47,4 +47,10 @@ public class SubscriberFacadeImpl implements SubscriberFacade {
         PageTotalContextHolder.remove();
         return new  BaseResponse<>(subscriberVOS, total);
     }
+
+    @Override
+    public BaseResponse<SubscriberVO> queryById(Long id) {
+        Subscriber subscriber = subscriberService.queryById(id);
+        return BaseResponse.success(subscriberConverter.convert2VO(subscriber));
+    }
 }

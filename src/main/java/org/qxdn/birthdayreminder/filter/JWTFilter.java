@@ -16,6 +16,7 @@ import org.qxdn.birthdayreminder.utils.JWTUtils;
 import org.qxdn.birthdayreminder.utils.LogUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -39,7 +40,7 @@ public class JWTFilter extends OncePerRequestFilter {
 
     private final List<String> notFilterPath = List.of("/api/user/login", "/api/character/birthday","/v3/api-docs","/swagger-ui/*");
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request, @NonNull HttpServletResponse response,@NonNull FilterChain filterChain) throws ServletException, IOException {
         String jwt = request.getHeader(BirthdayConstants.JWT_HEADER);
         LogUtils.debug(log, "get JWT: {}", jwt);
         try {

@@ -28,12 +28,17 @@ public class CharacterService {
     private CharacterConverter characterConverter;
 
     /** 搜寻生日
-     * @param date
-     * @return
+     * @param date 日期
+     * @return 角色列表
      */
     public List<Character> searchCharactersBirthDay(Date date) {
         List<CharacterDO> characterDOS =  characterRepository.findCharactersWithBirthday(DateUtils.getMonth(date),DateUtils.getDay(date));
         return StreamUtils.map(characterDOS, characterConverter::convert2Model);
+    }
+
+    public Character queryById(Long id) {
+        CharacterDO characterDO =  characterRepository.findById(id).orElse(null);
+        return characterConverter.convert2Model(characterDO);
     }
 
     /**

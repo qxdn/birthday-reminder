@@ -7,10 +7,7 @@ import org.qxdn.birthdayreminder.model.dto.request.UpdateSubscriberRequest;
 import org.qxdn.birthdayreminder.model.dto.response.BaseResponse;
 import org.qxdn.birthdayreminder.model.dto.response.vo.SubscriberVO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -34,5 +31,10 @@ public class SubscriberController {
     @GetMapping("/query")
     public BaseResponse<List<SubscriberVO>> querySubscribers(QuerySubscriberRequest request) {
         return subscriberFacade.querySubscribers(request);
+    }
+
+    @GetMapping("/{id}")
+    public BaseResponse<SubscriberVO> queryById(@PathVariable Long id) {
+        return subscriberFacade.queryById(id);
     }
 }

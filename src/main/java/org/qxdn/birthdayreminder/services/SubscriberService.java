@@ -36,6 +36,10 @@ public class SubscriberService {
         return StreamUtils.map(subscriberDOS, subscriberConverter::convert2Model);
     }
 
+    public Subscriber queryById(Long id) {
+        SubscriberDO subscriberDO =  subscriberRepository.findById(id).orElse(null);
+        return subscriberConverter.convert2Model(subscriberDO);
+    }
     public Subscriber save(Subscriber subscriber) {
         SubscriberDO subscriberDO = subscriberConverter.convert2DO(subscriber);
         subscriberDO = subscriberRepository.save(subscriberDO);
