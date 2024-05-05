@@ -1,7 +1,9 @@
 package org.qxdn.birthdayreminder.facade.impl;
 
+import org.qxdn.birthdayreminder.context.PageTotalContextHolder;
 import org.qxdn.birthdayreminder.facade.api.UserFacade;
 import org.qxdn.birthdayreminder.model.dto.request.LoginRequest;
+import org.qxdn.birthdayreminder.model.dto.request.QueryUserRequest;
 import org.qxdn.birthdayreminder.model.dto.request.RegisterRequest;
 import org.qxdn.birthdayreminder.model.dto.response.BaseResponse;
 import org.qxdn.birthdayreminder.model.dto.response.vo.LoginVO;
@@ -14,9 +16,11 @@ import org.qxdn.birthdayreminder.services.converter.UserConverter;
 import org.qxdn.birthdayreminder.utils.CheckUtils;
 import org.qxdn.birthdayreminder.utils.JWTUtils;
 import org.qxdn.birthdayreminder.utils.PasswordUtils;
+import org.qxdn.birthdayreminder.utils.StreamUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -53,5 +57,21 @@ public class UserFacadeImpl implements UserFacade {
         user = userConverter.registerRequest2Model(request);
         user = userService.save(user);
         return BaseResponse.success(userConverter.convert2VO(user));
+    }
+
+    @Override
+    public BaseResponse<UserVO> queryUserById(Long id) {
+        CheckUtils.notNull(id);
+        User user = userService.getUserById(id);
+        return BaseResponse.success(userConverter.convert2VO(user));
+    }
+
+    @Override
+    public BaseResponse<List<UserVO>> queryUserList(QueryUserRequest request) {
+        List<User> users = userService.queryUsers(request);
+        List<UserVO> userVOS = StreamUtils.map(users,userConverter::convert2VO);
+        Long total = PageTotalContextHolder.get();
+        PageTotalContextHolder.remove();
+        return new BaseResponse<>(userVOS,total);
     }
 }

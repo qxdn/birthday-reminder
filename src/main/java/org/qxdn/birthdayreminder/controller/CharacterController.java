@@ -2,6 +2,7 @@ package org.qxdn.birthdayreminder.controller;
 
 import org.qxdn.birthdayreminder.facade.api.CharacterFacade;
 import org.qxdn.birthdayreminder.model.dto.request.AddCharacterRequest;
+import org.qxdn.birthdayreminder.model.dto.request.QueryCharacterRequest;
 import org.qxdn.birthdayreminder.model.dto.request.UpdateCharacterRequest;
 import org.qxdn.birthdayreminder.model.dto.response.BaseResponse;
 import org.qxdn.birthdayreminder.model.dto.response.vo.CharacterVO;
@@ -14,7 +15,7 @@ import java.util.List;
 import java.util.Objects;
 
 
-@RequestMapping("/character")
+@RequestMapping("/api/character")
 @RestController
 public class CharacterController {
 
@@ -28,6 +29,11 @@ public class CharacterController {
             date = DateUtils.parseYMD(birthday);
         }
         return characterFacade.searchCharacterWithBirthday(date);
+    }
+
+    @GetMapping("/query")
+    public BaseResponse<List<CharacterVO>> queryCharacterList( QueryCharacterRequest request) {
+        return characterFacade.queryCharacterList(request);
     }
 
 

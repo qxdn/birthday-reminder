@@ -1,5 +1,6 @@
 package org.qxdn.birthdayreminder.model.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import lombok.*;
 import org.hibernate.proxy.HibernateProxy;
@@ -16,6 +17,7 @@ public class SubscriberDO extends BaseDO {
     /**
      * email
      */
+    @Column(nullable = false, unique = true)
     private String email;
 
     /**

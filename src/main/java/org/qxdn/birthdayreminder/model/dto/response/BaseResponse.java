@@ -30,7 +30,7 @@ public class BaseResponse<T> {
     /**
      * 是否成功
      */
-    private static Boolean success = true;
+    private Boolean success = true;
 
     private Long total;
 

@@ -3,7 +3,6 @@ package org.qxdn.birthdayreminder.services.converter;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
-import org.mapstruct.factory.Mappers;
 import org.qxdn.birthdayreminder.model.constants.BirthdayConstants;
 import org.qxdn.birthdayreminder.model.dto.request.AddCharacterRequest;
 import org.qxdn.birthdayreminder.model.dto.request.UpdateCharacterRequest;
@@ -67,7 +66,8 @@ public interface CharacterConverter {
         if (Objects.nonNull(character.getBirthYear())) {
             sb.append(character.getBirthYear()).append("-");
         }
-        sb.append(character.getBirthMonth()).append("-").append(character.getBirthDay());
+        sb.append(StringUtils.leftPad(String.valueOf(character.getBirthMonth()), 2, '0')).append("-")
+                .append(StringUtils.leftPad(String.valueOf(character.getBirthDay()), 2, '0'));
         return sb.toString();
     }
 

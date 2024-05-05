@@ -1,7 +1,9 @@
 package org.qxdn.birthdayreminder.facade.impl;
 
+import org.qxdn.birthdayreminder.context.PageTotalContextHolder;
 import org.qxdn.birthdayreminder.facade.api.CharacterFacade;
 import org.qxdn.birthdayreminder.model.dto.request.AddCharacterRequest;
+import org.qxdn.birthdayreminder.model.dto.request.QueryCharacterRequest;
 import org.qxdn.birthdayreminder.model.dto.request.UpdateCharacterRequest;
 import org.qxdn.birthdayreminder.model.dto.response.BaseResponse;
 import org.qxdn.birthdayreminder.model.dto.response.vo.CharacterVO;
@@ -31,6 +33,16 @@ public class CharacterFacadeImpl implements CharacterFacade {
         List<CharacterVO> vos = StreamUtils.map(characters, characterConverter::convert2VO);
         return new BaseResponse<>(vos);
     }
+
+    @Override
+    public BaseResponse<List<CharacterVO>> queryCharacterList(QueryCharacterRequest request) {
+        List<Character> characters = characterService.query(request);
+        Long total = PageTotalContextHolder.get();
+        List<CharacterVO> vos = StreamUtils.map(characters, characterConverter::convert2VO);
+        PageTotalContextHolder.remove();
+        return new BaseResponse<>(vos, total);
+    }
+
 
     @Override
     public BaseResponse<CharacterVO> addCharacter(AddCharacterRequest request) {

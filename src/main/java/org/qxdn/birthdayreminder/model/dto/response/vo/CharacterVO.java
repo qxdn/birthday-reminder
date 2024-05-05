@@ -14,6 +14,8 @@ public class CharacterVO {
 
     private String originName;
 
+    private String gender;
+
     private List<String> otherName = new ArrayList<>();
 
     private String birthday;

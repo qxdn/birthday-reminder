@@ -1,13 +1,18 @@
 package org.qxdn.birthdayreminder.services;
 
 
+import org.qxdn.birthdayreminder.context.PageTotalContextHolder;
+import org.qxdn.birthdayreminder.model.dto.request.QueryCharacterRequest;
 import org.qxdn.birthdayreminder.model.entity.CharacterDO;
 import org.qxdn.birthdayreminder.model.model.Character;
 import org.qxdn.birthdayreminder.repository.CharacterRepository;
 import org.qxdn.birthdayreminder.services.converter.CharacterConverter;
 import org.qxdn.birthdayreminder.utils.DateUtils;
+import org.qxdn.birthdayreminder.utils.PageUtils;
 import org.qxdn.birthdayreminder.utils.StreamUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -29,6 +34,22 @@ public class CharacterService {
     public List<Character> searchCharactersBirthDay(Date date) {
         List<CharacterDO> characterDOS =  characterRepository.findCharactersWithBirthday(DateUtils.getMonth(date),DateUtils.getDay(date));
         return StreamUtils.map(characterDOS, characterConverter::convert2Model);
+    }
+
+    /**
+     * 查询角色
+     * @param request 查询条件
+     * @return 角色列表
+     */
+    public List<Character> query(QueryCharacterRequest request){
+        Pageable pageable = PageUtils.getPageable(request);
+        Page<CharacterDO> page = characterRepository.queryCharacters(request.getId(),request.getName()
+                ,request.getOriginName(), request.getBirthYear(),
+                request.getBirthMonth(), request.getBirthDay(),
+                pageable);
+        PageTotalContextHolder.remove();
+        PageTotalContextHolder.set(page.getTotalElements());
+        return StreamUtils.map(page.getContent(), characterConverter::convert2Model);
     }
 
     /**

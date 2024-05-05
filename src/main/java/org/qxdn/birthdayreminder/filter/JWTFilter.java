@@ -37,7 +37,7 @@ public class JWTFilter extends OncePerRequestFilter {
     private HandlerExceptionResolver resolver;
 
 
-    private final List<String> notFilterPath = List.of("/user/login", "/character/birthday","/v3/api-docs","/swagger-ui/*");
+    private final List<String> notFilterPath = List.of("/api/user/login", "/api/character/birthday","/v3/api-docs","/swagger-ui/*");
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String jwt = request.getHeader(BirthdayConstants.JWT_HEADER);

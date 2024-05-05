@@ -5,34 +5,33 @@ import lombok.Data;
 import java.util.Date;
 
 /**
- * 用户VO
+ * 订阅者VO
  */
 @Data
-public class UserVO {
+public class SubscriberVO {
 
     /**
-     * 用户ID
+     * 订阅者id
      */
     private Long id;
 
     /**
-     * 用户名
+     * 订阅者邮箱
      */
-    private String name;
+    private String email;
 
     /**
-     * 头像
+     * 订阅者是否激活
      */
-    private String avatar;
+    private Boolean active;
 
     /**
-     * 创建时间
+     * 订阅者创建时间
      */
     private Date gmtCreate;
 
     /**
-     * 修改时间
+     * 订阅者更新时间
      */
     private Date gmtUpdate;
-
 }
