@@ -4,15 +4,15 @@ spring:
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url:
-    username:
-    password:
+    url: ${MYSQL_URL:}
+    username: ${MYSQL_USER:}
+    password: ${MYSQL_PASSWORD:}
 
   mail:
-    host:
-    port:
-    username:
-    password:
+    host: ${MAIL_HOST:}
+    port: ${MAIL_PORT:}
+    username: ${MAIL_USERNAME:}
+    password: ${MAIL_PASSWORD:}
 
   quartz:
     job-store-type: jdbc
