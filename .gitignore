@@ -36,3 +36,4 @@ build/
 application-dev.yml
 
 /logs
+start.sh

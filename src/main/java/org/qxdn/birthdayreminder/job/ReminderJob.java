@@ -23,14 +23,18 @@ import java.util.List;
 @Component
 public class ReminderJob extends QuartzJobBean {
 
-    @Autowired
-    private ReminderServiceLoader reminderServiceLoader;
+    private final ReminderServiceLoader reminderServiceLoader;
+
+    private final CharacterService characterService;
+
+    private final SubscriberService subscriberService;
 
     @Autowired
-    private CharacterService characterService;
-
-    @Autowired
-    private SubscriberService subscriberService;
+    public ReminderJob(ReminderServiceLoader reminderServiceLoader, CharacterService characterService, SubscriberService subscriberService) {
+        this.reminderServiceLoader = reminderServiceLoader;
+        this.characterService = characterService;
+        this.subscriberService = subscriberService;
+    }
 
     @Override
     protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
