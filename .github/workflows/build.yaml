@@ -33,7 +33,7 @@ jobs:
         
         - name: build
           run:
-            mvn native:compile -Pnative -DskipTests
+            mvn clean native:compile -Pnative -DskipTests
         
         - name: upload
           uses: actions/upload-artifact@v4
