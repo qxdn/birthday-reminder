@@ -32,7 +32,7 @@ public class CharacterController {
     }
 
     @GetMapping("/query")
-    public BaseResponse<List<CharacterVO>> queryCharacterList( QueryCharacterRequest request) {
+    public BaseResponse<List<CharacterVO>> queryCharacterList(@ModelAttribute QueryCharacterRequest request) {
         return characterFacade.queryCharacterList(request);
     }
 

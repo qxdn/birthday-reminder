@@ -67,7 +67,7 @@ public class UserController {
     }
 
     @GetMapping("/query")
-    public BaseResponse<List<UserVO>> queryUserList(QueryUserRequest request){
+    public BaseResponse<List<UserVO>> queryUserList(@ModelAttribute QueryUserRequest request){
         return userFacade.queryUserList(request);
     }
 

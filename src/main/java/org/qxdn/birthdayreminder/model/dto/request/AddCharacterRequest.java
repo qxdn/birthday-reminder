@@ -12,6 +12,8 @@ public class AddCharacterRequest {
 
     protected String originName;
 
+    protected String gender;
+
     protected List<String> otherName = new ArrayList<>();
 
     protected String birthday;

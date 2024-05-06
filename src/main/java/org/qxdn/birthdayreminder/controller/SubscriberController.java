@@ -29,7 +29,7 @@ public class SubscriberController {
     }
 
     @GetMapping("/query")
-    public BaseResponse<List<SubscriberVO>> querySubscribers(QuerySubscriberRequest request) {
+    public BaseResponse<List<SubscriberVO>> querySubscribers(@ModelAttribute QuerySubscriberRequest request) {
         return subscriberFacade.querySubscribers(request);
     }
 
