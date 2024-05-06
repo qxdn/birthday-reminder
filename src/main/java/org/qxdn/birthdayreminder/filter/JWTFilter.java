@@ -55,7 +55,7 @@ public class JWTFilter extends OncePerRequestFilter {
             // 设置context
             UserSessionContext.set(userSessionVO);
             // filter
-            doFilter(request, response, filterChain);
+            filterChain.doFilter(request, response);
         } catch (BirthdayException e) {
             // JWT错误
             LogUtils.error(log, "JWT认证失败" ,e);
@@ -73,6 +73,9 @@ public class JWTFilter extends OncePerRequestFilter {
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
         String path = request.getRequestURI();
+        if (!path.startsWith("/api")){
+            return true;
+        }
         AntPathMatcher antPathMatcher = new AntPathMatcher();
         return notFilterPath.stream().anyMatch(p -> antPathMatcher.match(p, path));
     }

@@ -25,6 +25,9 @@ public class WebAspect {
         try {
             LogUtils.info(log,"请求开始,方法:{},参数:{}",joinPoint.getSignature().toShortString(),joinPoint.getArgs());
             Object result = joinPoint.proceed();
+            if (result instanceof byte[]) {
+                return result;
+            }
             LogUtils.info(log,"请求结束,方法:{},参数:{},结果:{}",joinPoint.getSignature().toShortString(),joinPoint.getArgs(),result);
             return result;
         } catch (BirthdayException e) {
