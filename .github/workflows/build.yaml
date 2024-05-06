@@ -1,0 +1,43 @@
+name: BUILD
+
+on: workflow_dispatch
+
+env:
+    MYSQL_URL: ${{ secrets.MYSQL_URL }}
+    MYSQL_USER: ${{ secrets.MYSQL_USER }}
+    MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
+    
+    MAIL_HOST: ${{ secrets.MAIL_HOST }}
+    MAIL_PORT: ${{ secrets.MAIL_PORT }}
+    MAIL_USERNAME: ${{ secrets.MAIL_USERNAME }}
+    MAIL_PASSWORD: ${{ secrets.MAIL_PASSWORD }}
+
+jobs:
+   build:
+    name: Build
+    runs-on: ubuntu-latest
+    
+    steps:
+        - name: Checkout
+          uses: actions/checkout@v4
+        
+        - name: install graalvm
+          uses: graalvm/setup-graalvm@v1
+          with:
+            java-version: '17'
+            distribution: 'graalvm'
+        
+        - name: install maven
+          run:
+            sudo apt-get install maven -y
+        
+        - name: build
+          run:
+            mvn clean package -Pnative -DskipTests
+        
+        - name: upload
+          uses: actions/upload-artifact@v4
+          with:
+            name: birthday-reminder
+            path: target/birthday-reminder
+            retention-days: 1
