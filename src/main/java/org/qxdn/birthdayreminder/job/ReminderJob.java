@@ -13,6 +13,7 @@ import org.qxdn.birthdayreminder.services.reminder.ReminderServiceLoader;
 import org.qxdn.birthdayreminder.utils.DateUtils;
 import org.qxdn.birthdayreminder.utils.LogUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.NonNull;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 import org.springframework.stereotype.Component;
 
@@ -37,13 +38,14 @@ public class ReminderJob extends QuartzJobBean {
     }
 
     @Override
-    protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
+    protected void executeInternal(@NonNull JobExecutionContext context) throws JobExecutionException {
         Date now = DateUtils.now();
         List<Character> characters = characterService.searchCharactersBirthDay(now);
         List<ReminderService> reminderServices = reminderServiceLoader.getReminderServices();
         ReminderContent reminderContent = new ReminderContent();
-        // TODO: 数据库读取
+        // 数据库读取
         List<Subscriber> subscribers = subscriberService.querySubscribers(true);
+        LogUtils.info(log, "Send {} characters birthday remind email at {} for {} subscribers", characters.size(), DateUtils.now(), subscribers.size());
         reminderContent.setSubscribers(subscribers);
         reminderContent.setSubject("生日提醒");
         reminderServices.stream()

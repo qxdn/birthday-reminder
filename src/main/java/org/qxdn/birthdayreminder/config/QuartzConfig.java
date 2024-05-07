@@ -35,7 +35,8 @@ public class QuartzConfig {
            Trigger trigger = scheduler.getTrigger(TriggerKey.triggerKey(BirthdayConstants.REMINDER_JOB_TRIGGER_NAME,BirthdayConstants.REMINDER_JOB_TRIGGER_GROUP));
           if (Objects.isNull(trigger)) {
               // 创建默认触发器
-            CronScheduleBuilder scheduleBuilder = CronScheduleBuilder.cronSchedule(BirthdayConstants.REMINDER_JOB_TRIGGER_CRON);
+            CronScheduleBuilder scheduleBuilder = CronScheduleBuilder.cronSchedule(BirthdayConstants.REMINDER_JOB_TRIGGER_CRON)
+                    .withMisfireHandlingInstructionFireAndProceed();
             trigger = TriggerBuilder.newTrigger()
                       .forJob(jobDetail)
                       .withIdentity(BirthdayConstants.REMINDER_JOB_TRIGGER_NAME,BirthdayConstants.REMINDER_JOB_TRIGGER_GROUP)
