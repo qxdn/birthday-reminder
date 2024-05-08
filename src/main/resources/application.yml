@@ -13,6 +13,14 @@ spring:
     port: ${MAIL_PORT:}
     username: ${MAIL_USERNAME:}
     password: ${MAIL_PASSWORD:}
+    properties:
+      mail:
+        smtp:
+          ssl:
+            enable: true
+          socketFactory:
+            port: ${MAIL_PORT:}
+            class: javax.net.ssl.SSLSocketFactory
 
   quartz:
     job-store-type: jdbc
