@@ -48,6 +48,16 @@ public class UserService {
     }
 
     /**
+     * 根据邮箱获取用户
+     * @param email 邮箱
+     * @return 用户
+     */
+    public User getUserByEmail(String email){
+        UserDO userDO = userRepository.findByEmail(email);
+        return userConverter.convert2Model(userDO);
+    }
+
+    /**
      * 保存用户
      * @param user 用户
      * @return 用户
@@ -73,7 +83,7 @@ public class UserService {
      */
     public List<User> queryUsers(QueryUserRequest request){
         Pageable pageable = PageUtils.getPageable(request);
-        Page<UserDO> page = userRepository.queryUsers(request.getId(),request.getUsername(), request.getEmail(), pageable);
+        Page<UserDO> page = userRepository.queryUsers(request.getId(),request.getUsername(), request.getEmail(),request.getRole(), pageable);
         PageTotalContextHolder.remove();
         PageTotalContextHolder.set(page.getTotalElements());
         return StreamUtils.map(page.getContent(), userConverter::convert2Model);

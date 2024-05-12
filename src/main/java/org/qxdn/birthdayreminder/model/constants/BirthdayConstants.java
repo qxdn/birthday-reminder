@@ -27,4 +27,5 @@ public class BirthdayConstants {
 
     public static final String REMINDER_JOB_TRIGGER_GROUP = "reminderGroup";
 
+
 }

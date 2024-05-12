@@ -1,6 +1,7 @@
 package org.qxdn.birthdayreminder.controller;
 
 import jakarta.servlet.http.HttpServletResponse;
+import org.qxdn.birthdayreminder.annotation.RoleAdmin;
 import org.qxdn.birthdayreminder.context.UserSessionContext;
 import org.qxdn.birthdayreminder.facade.api.UserFacade;
 import org.qxdn.birthdayreminder.model.constants.BirthdayConstants;
@@ -42,6 +43,7 @@ public class UserController {
      * @param request 注册请求
      * @return 注册响应
      */
+    @RoleAdmin
     @PostMapping("/register")
     public BaseResponse<UserVO> register(@RequestBody RegisterRequest request) {
         return userFacade.register(request);
@@ -52,8 +54,10 @@ public class UserController {
      * @param request 请求参数
      * @return 返回结果
      */
+    @RoleAdmin
     @PostMapping("/update")
     public BaseResponse<UserVO> updateUser(@RequestBody UpdateUserRequest request) {
+        // TODO: 后面单独做一个更新用户自己的接口
         return userFacade.updateUser( request);
     }
 
@@ -84,9 +88,15 @@ public class UserController {
      * @param request 请求参数
      * @return 返回结果
      */
+    @RoleAdmin
     @PostMapping("/resetPassword")
     public BaseResponse<Void> resetPassword(@RequestBody ResetPasswordRequest request) {
         return userFacade.resetPassword(request);
+    }
 
+
+    @PostMapping("/forgetPassword")
+    public BaseResponse<Void> forgetPassword(@RequestBody ForgetPasswordRequest request) {
+        return userFacade.forgetPassword(request);
     }
 }

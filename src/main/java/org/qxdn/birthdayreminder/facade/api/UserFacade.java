@@ -36,4 +36,11 @@ public interface UserFacade {
     BaseResponse<List<UserVO>> queryUserList(QueryUserRequest request);
 
     BaseResponse<Void> resetPassword(ResetPasswordRequest  request);
+
+    /**
+     * 忘记密码请求
+     * @param request
+     * @return
+     */
+    BaseResponse<Void> forgetPassword(ForgetPasswordRequest request);
 }

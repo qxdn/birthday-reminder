@@ -22,4 +22,8 @@ public class StringUtils {
     public static String leftPad(String str, int length, char padChar) {
         return org.apache.commons.lang3.StringUtils.leftPad(str,length,padChar);
     }
+
+    public static boolean isBlank(String str) {
+        return org.apache.commons.lang3.StringUtils.isBlank(str);
+    }
 }

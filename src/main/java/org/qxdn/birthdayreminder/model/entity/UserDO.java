@@ -5,6 +5,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Index;
 import jakarta.persistence.Table;
 import lombok.*;
+import org.qxdn.birthdayreminder.model.constants.BirthdayConstants;
+import org.qxdn.birthdayreminder.model.enums.UserRoleEnum;
 
 import java.util.Objects;
 
@@ -21,7 +23,7 @@ public class UserDO extends BaseDO {
     /**
      * name
      */
-    @Column(name = "username",nullable = false,unique = true,updatable = false)
+    @Column(nullable = false,unique = true,updatable = false)
     private String username;
 
     @Column(nullable = false,unique = true)
@@ -37,6 +39,9 @@ public class UserDO extends BaseDO {
      * 头像
      */
     private String avatar;
+
+    @Column(nullable = false)
+    private String role = UserRoleEnum.ADMIN.getRole();
 
     @Override
     public boolean equals(Object o) {

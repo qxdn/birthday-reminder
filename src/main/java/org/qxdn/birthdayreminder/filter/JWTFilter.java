@@ -38,7 +38,7 @@ public class JWTFilter extends OncePerRequestFilter {
     private HandlerExceptionResolver resolver;
 
 
-    private final List<String> notFilterPath = List.of("/api/user/login", "/api/character/birthday","/v3/api-docs","/swagger-ui/*");
+    private final List<String> notFilterPath = List.of("/api/user/login", "/api/character/birthday","/api/user/forgetPassword","/v3/api-docs","/swagger-ui/*");
     @Override
     protected void doFilterInternal(HttpServletRequest request, @NonNull HttpServletResponse response,@NonNull FilterChain filterChain) throws ServletException, IOException {
         String jwt = request.getHeader(BirthdayConstants.JWT_HEADER);
@@ -52,6 +52,7 @@ public class JWTFilter extends OncePerRequestFilter {
             // 设置登录用户
             UserSessionVO userSessionVO = new UserSessionVO();
             userSessionVO.setId(user.getId());
+            userSessionVO.setRole(user.getRole());
             // 设置context
             UserSessionContext.set(userSessionVO);
             // filter

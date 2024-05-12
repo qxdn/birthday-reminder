@@ -40,4 +40,9 @@ public class UserVO {
      */
     private Date gmtUpdate;
 
+    /**
+     * 角色
+     */
+    private String role;
+
 }

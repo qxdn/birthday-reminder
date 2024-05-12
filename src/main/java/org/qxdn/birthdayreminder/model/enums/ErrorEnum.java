@@ -11,6 +11,7 @@ public enum ErrorEnum {
     LOGIN_FAIL("100","用户名或密码错误"),
     USER_EXIST("101","用户已存在"),
     NOT_LOGIN("102","未登录"),
+    NO_PERMISSION("103","无权限"),
 
     CHECK_FAIL("200","校验失败"),
     ;

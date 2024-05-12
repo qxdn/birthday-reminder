@@ -11,10 +11,13 @@ public interface UserRepository extends JpaRepository<UserDO, Long>{
 
     UserDO findByUsername(String username);
 
+    UserDO findByEmail(String email);
 
     @Query("SELECT u FROM UserDO u " +
             "WHERE (:id IS NULL OR u.id = :id) " +
             "AND (:username IS NULL OR u.username like %:username%)" +
-            "AND (:email IS NULL OR u.email like %:email%)")
-    Page<UserDO> queryUsers(@Param("id") Long id,@Param("username") String username,@Param("email") String email, Pageable pageable);
+            "AND (:email IS NULL OR u.email like %:email%)" +
+            "AND (:role IS NULL OR u.role = :role)")
+    Page<UserDO> queryUsers(@Param("id") Long id,@Param("username") String username,@Param("email") String email,
+                            @Param("role") String role,Pageable pageable);
 }

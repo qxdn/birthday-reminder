@@ -8,9 +8,11 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.qxdn.birthdayreminder.model.enums.ErrorEnum;
 import org.qxdn.birthdayreminder.model.exception.BirthdayException;
 import org.qxdn.birthdayreminder.utils.LogUtils;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 @Aspect
+@Order(1)
 @Slf4j
 @Component
 public class WebAspect {

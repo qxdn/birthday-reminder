@@ -1,22 +1,20 @@
 package org.qxdn.birthdayreminder.facade.impl;
 
+import lombok.extern.slf4j.Slf4j;
 import org.qxdn.birthdayreminder.context.PageTotalContextHolder;
-import org.qxdn.birthdayreminder.context.UserSessionContext;
 import org.qxdn.birthdayreminder.facade.api.UserFacade;
 import org.qxdn.birthdayreminder.model.dto.request.*;
 import org.qxdn.birthdayreminder.model.dto.response.BaseResponse;
 import org.qxdn.birthdayreminder.model.dto.response.vo.LoginVO;
-import org.qxdn.birthdayreminder.model.dto.response.vo.UserSessionVO;
 import org.qxdn.birthdayreminder.model.dto.response.vo.UserVO;
 import org.qxdn.birthdayreminder.model.enums.ErrorEnum;
+import org.qxdn.birthdayreminder.model.enums.UserRoleEnum;
 import org.qxdn.birthdayreminder.model.exception.BirthdayException;
 import org.qxdn.birthdayreminder.model.model.User;
+import org.qxdn.birthdayreminder.services.EmailService;
 import org.qxdn.birthdayreminder.services.UserService;
 import org.qxdn.birthdayreminder.services.converter.UserConverter;
-import org.qxdn.birthdayreminder.utils.CheckUtils;
-import org.qxdn.birthdayreminder.utils.JWTUtils;
-import org.qxdn.birthdayreminder.utils.PasswordUtils;
-import org.qxdn.birthdayreminder.utils.StreamUtils;
+import org.qxdn.birthdayreminder.utils.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Objects;
 
+@Slf4j
 @Service
 public class UserFacadeImpl implements UserFacade {
 
@@ -32,6 +31,9 @@ public class UserFacadeImpl implements UserFacade {
 
     @Autowired
     private UserConverter userConverter;
+
+    @Autowired
+    private EmailService emailService;
 
     @Override
     public BaseResponse<LoginVO> login(LoginRequest request) {
@@ -56,6 +58,10 @@ public class UserFacadeImpl implements UserFacade {
         if (Objects.nonNull(user)){
             throw new BirthdayException(ErrorEnum.USER_EXIST);
         }
+        // 默认权限
+        if (StringUtils.isBlank(request.getRole())){
+            request.setRole(UserRoleEnum.USER.getRole());
+        }
         user = userConverter.registerRequest2Model(request);
         user = userService.save(user);
         return BaseResponse.success(userConverter.convert2VO(user));
@@ -64,9 +70,11 @@ public class UserFacadeImpl implements UserFacade {
     @Transactional
     @Override
     public BaseResponse<UserVO> updateUser( UpdateUserRequest request) {
+        UserRoleEnum role = UserRoleEnum.getByRole(request.getRole());
         User user = userService.getUserById(request.getUserId());
         user.setAvatar(request.getAvatar());
         user.setEmail(request.getEmail());
+        user.setRole(role);
         user = userService.update(user);
         return BaseResponse.success(userConverter.convert2VO(user));
     }
@@ -99,5 +107,14 @@ public class UserFacadeImpl implements UserFacade {
         resetUser.setPassword(PasswordUtils.encode(request.getPassword()));
         userService.update(resetUser);
         return new BaseResponse<>();
+    }
+
+    @Override
+    public BaseResponse<Void> forgetPassword(ForgetPasswordRequest request) {
+        CheckUtils.notBlank(request.getEmail());
+        User user = userService.getUserByEmail(request.getEmail());
+        // TODO： 有待完成
+        LogUtils.warn(log,"忘记密码功能未完成");
+        return null;
     }
 }
