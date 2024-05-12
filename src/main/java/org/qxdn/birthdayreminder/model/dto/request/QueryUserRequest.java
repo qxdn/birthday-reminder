@@ -15,6 +15,11 @@ public class QueryUserRequest extends PageRequest {
     /**
      * 用户名
      */
-    private String name;
+    private String username;
 
+
+    /**
+     * 邮箱
+     */
+    private String email;
 }

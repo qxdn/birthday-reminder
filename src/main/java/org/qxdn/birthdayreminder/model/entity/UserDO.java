@@ -2,6 +2,7 @@ package org.qxdn.birthdayreminder.model.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Index;
 import jakarta.persistence.Table;
 import lombok.*;
 
@@ -12,13 +13,19 @@ import java.util.Objects;
 @ToString
 @RequiredArgsConstructor
 @Entity
-@Table(name = "users")
+@Table(name = "users",indexes = {
+        @Index(name = "idx_username",columnList = "username"),
+        @Index(name = "idx_email",columnList = "email"),
+})
 public class UserDO extends BaseDO {
     /**
      * name
      */
-    @Column(nullable = false,unique = true,updatable = false)
-    private String name;
+    @Column(name = "username",nullable = false,unique = true,updatable = false)
+    private String username;
+
+    @Column(nullable = false,unique = true)
+    private String email;
 
     /**
      * 密码
@@ -37,11 +44,11 @@ public class UserDO extends BaseDO {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         UserDO userDO = (UserDO) o;
-        return Objects.equals(name, userDO.name) && Objects.equals(password, userDO.password) && Objects.equals(avatar, userDO.avatar);
+        return Objects.equals(username, userDO.username) && Objects.equals(email, userDO.email) && Objects.equals(password, userDO.password) && Objects.equals(avatar, userDO.avatar);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), name, password, avatar);
+        return Objects.hash(super.hashCode(), username, email, password, avatar);
     }
 }

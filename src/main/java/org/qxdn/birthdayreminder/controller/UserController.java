@@ -4,10 +4,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.qxdn.birthdayreminder.context.UserSessionContext;
 import org.qxdn.birthdayreminder.facade.api.UserFacade;
 import org.qxdn.birthdayreminder.model.constants.BirthdayConstants;
-import org.qxdn.birthdayreminder.model.dto.request.LoginRequest;
-import org.qxdn.birthdayreminder.model.dto.request.QueryUserRequest;
-import org.qxdn.birthdayreminder.model.dto.request.RegisterRequest;
-import org.qxdn.birthdayreminder.model.dto.request.UpdateUserRequest;
+import org.qxdn.birthdayreminder.model.dto.request.*;
 import org.qxdn.birthdayreminder.model.dto.response.BaseResponse;
 import org.qxdn.birthdayreminder.model.dto.response.vo.LoginVO;
 import org.qxdn.birthdayreminder.model.dto.response.vo.UserSessionVO;
@@ -76,9 +73,20 @@ public class UserController {
         return userFacade.queryUserById(id);
     }
 
-    @RequestMapping("/logout")
+    @PostMapping("/logout")
     public BaseResponse<Void> logout() {
         UserSessionContext.remove();
         return new BaseResponse<>();
+    }
+
+    /**
+     * 重设密码
+     * @param request 请求参数
+     * @return 返回结果
+     */
+    @PostMapping("/resetPassword")
+    public BaseResponse<Void> resetPassword(@RequestBody ResetPasswordRequest request) {
+        return userFacade.resetPassword(request);
+
     }
 }

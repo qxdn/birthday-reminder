@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -41,8 +42,8 @@ public class UserService {
      * @param name 用户名
      * @return 用户
      */
-    public User getUserByName(String name){
-        UserDO userDO = userRepository.findByName(name);
+    public User getUserByUsername(String name){
+        UserDO userDO = userRepository.findByUsername(name);
         return userConverter.convert2Model(userDO);
     }
 
@@ -51,12 +52,14 @@ public class UserService {
      * @param user 用户
      * @return 用户
      */
+    @Transactional
     public User save(User user){
         UserDO userDO = userConverter.convert2DO(user);
         userDO = userRepository.saveAndFlush(userDO);
         return userConverter.convert2Model(userDO);
     }
 
+    @Transactional
     public User update(User user){
         UserDO userDO = userConverter.convert2DO(user);
         userDO = userRepository.saveAndFlush(userDO);
@@ -70,7 +73,7 @@ public class UserService {
      */
     public List<User> queryUsers(QueryUserRequest request){
         Pageable pageable = PageUtils.getPageable(request);
-        Page<UserDO> page = userRepository.queryUsers(request.getId(),request.getName(),pageable);
+        Page<UserDO> page = userRepository.queryUsers(request.getId(),request.getUsername(), request.getEmail(), pageable);
         PageTotalContextHolder.remove();
         PageTotalContextHolder.set(page.getTotalElements());
         return StreamUtils.map(page.getContent(), userConverter::convert2Model);

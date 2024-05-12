@@ -7,6 +7,8 @@ public class UpdateUserRequest {
 
     private Long userId;
 
+    private String email;
+
     private String avatar;
 
 }

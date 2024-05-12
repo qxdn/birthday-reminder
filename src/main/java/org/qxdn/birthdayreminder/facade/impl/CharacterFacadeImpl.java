@@ -14,6 +14,7 @@ import org.qxdn.birthdayreminder.utils.CheckUtils;
 import org.qxdn.birthdayreminder.utils.StreamUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -44,6 +45,7 @@ public class CharacterFacadeImpl implements CharacterFacade {
     }
 
 
+    @Transactional
     @Override
     public BaseResponse<CharacterVO> addCharacter(AddCharacterRequest request) {
         //TODO: check request
@@ -53,6 +55,7 @@ public class CharacterFacadeImpl implements CharacterFacade {
         return new BaseResponse<>(vo);
     }
 
+    @Transactional
     @Override
     public BaseResponse<CharacterVO> updateCharacter(UpdateCharacterRequest request) {
         //TODO: check request

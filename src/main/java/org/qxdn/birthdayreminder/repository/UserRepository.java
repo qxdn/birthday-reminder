@@ -9,11 +9,12 @@ import org.springframework.data.repository.query.Param;
 
 public interface UserRepository extends JpaRepository<UserDO, Long>{
 
-    UserDO findByName(String name);
+    UserDO findByUsername(String username);
 
 
     @Query("SELECT u FROM UserDO u " +
             "WHERE (:id IS NULL OR u.id = :id) " +
-            "AND (:name IS NULL OR u.name like %:name%)")
-    Page<UserDO> queryUsers(@Param("id") Long id,@Param("name") String name, Pageable pageable);
+            "AND (:username IS NULL OR u.username like %:username%)" +
+            "AND (:email IS NULL OR u.email like %:email%)")
+    Page<UserDO> queryUsers(@Param("id") Long id,@Param("username") String username,@Param("email") String email, Pageable pageable);
 }

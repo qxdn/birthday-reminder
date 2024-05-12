@@ -13,6 +13,7 @@ import org.qxdn.birthdayreminder.services.converter.SubscriberConverter;
 import org.qxdn.birthdayreminder.utils.StreamUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
@@ -26,6 +27,7 @@ public class SubscriberFacadeImpl implements SubscriberFacade {
     @Autowired
     private SubscriberConverter subscriberConverter;
 
+    @Transactional
     @Override
     public BaseResponse<SubscriberVO> addSubscriber(AddSubscriberRequest request) {
         Subscriber subscriber = subscriberConverter.AddSubscriberRequest2Model(request);
@@ -36,6 +38,7 @@ public class SubscriberFacadeImpl implements SubscriberFacade {
         return BaseResponse.success(subscriberConverter.convert2VO(subscriber));
     }
 
+    @Transactional
     @Override
     public BaseResponse<SubscriberVO> updateSubscriber(UpdateSubscriberRequest request) {
         Subscriber subscriber = subscriberConverter.updateSubscriberRequest2Model(request);

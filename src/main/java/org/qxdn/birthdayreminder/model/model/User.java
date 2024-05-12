@@ -7,7 +7,12 @@ import lombok.EqualsAndHashCode;
 @Data
 public class User extends BaseModel{
 
-    private String name;
+    private String username;
+
+    /**
+     * 邮箱
+     */
+    private String email;
 
     private String avatar;
 

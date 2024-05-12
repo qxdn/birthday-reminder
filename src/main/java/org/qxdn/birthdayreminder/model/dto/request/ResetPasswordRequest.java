@@ -3,9 +3,11 @@ package org.qxdn.birthdayreminder.model.dto.request;
 import lombok.Data;
 
 @Data
-public class LoginRequest {
+public class ResetPasswordRequest {
 
-    private String username;
+    private Long userId;
 
     private String password;
+
+    private String confirmPassword;
 }

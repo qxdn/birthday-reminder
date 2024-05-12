@@ -11,7 +11,12 @@ public class RegisterRequest {
     /**
      * 用户名
      */
-    private String name;
+    private String username;
+
+    /**
+     * 邮箱
+     */
+    private String email;
 
     /**
      * 头像

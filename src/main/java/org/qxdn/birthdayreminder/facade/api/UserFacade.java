@@ -1,9 +1,6 @@
 package org.qxdn.birthdayreminder.facade.api;
 
-import org.qxdn.birthdayreminder.model.dto.request.LoginRequest;
-import org.qxdn.birthdayreminder.model.dto.request.QueryUserRequest;
-import org.qxdn.birthdayreminder.model.dto.request.RegisterRequest;
-import org.qxdn.birthdayreminder.model.dto.request.UpdateUserRequest;
+import org.qxdn.birthdayreminder.model.dto.request.*;
 import org.qxdn.birthdayreminder.model.dto.response.BaseResponse;
 import org.qxdn.birthdayreminder.model.dto.response.vo.LoginVO;
 import org.qxdn.birthdayreminder.model.dto.response.vo.UserVO;
@@ -37,4 +34,6 @@ public interface UserFacade {
      * @return 用户列表
      */
     BaseResponse<List<UserVO>> queryUserList(QueryUserRequest request);
+
+    BaseResponse<Void> resetPassword(ResetPasswordRequest  request);
 }
