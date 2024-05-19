@@ -2,6 +2,7 @@ package org.qxdn.birthdayreminder.controller;
 
 import org.qxdn.birthdayreminder.facade.api.CharacterFacade;
 import org.qxdn.birthdayreminder.model.dto.request.AddCharacterRequest;
+import org.qxdn.birthdayreminder.model.dto.request.BatchAddCharacterRequest;
 import org.qxdn.birthdayreminder.model.dto.request.QueryCharacterRequest;
 import org.qxdn.birthdayreminder.model.dto.request.UpdateCharacterRequest;
 import org.qxdn.birthdayreminder.model.dto.response.BaseResponse;
@@ -45,6 +46,11 @@ public class CharacterController {
     @PostMapping("/add")
     public BaseResponse<CharacterVO> addCharacter(@RequestBody AddCharacterRequest request) {
         return characterFacade.addCharacter(request);
+    }
+
+    @PostMapping("/batchAdd")
+    public BaseResponse<List<CharacterVO>> batchAddCharacter(@RequestBody BatchAddCharacterRequest requests) {
+        return characterFacade.batchAddCharacter(requests);
     }
 
     /**

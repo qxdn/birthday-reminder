@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -62,9 +63,17 @@ public class CharacterService {
      * @param character 角色
      * @return 修改后角色
      */
+    @Transactional
     public Character addCharacter(Character character) {
        CharacterDO characterDO = characterRepository.save(characterConverter.convert2DO(character));
        return characterConverter.convert2Model(characterDO);
+    }
+
+    @Transactional
+    public List<Character> batchAddCharacter(List<Character> characters) {
+        List<CharacterDO> characterDOS = StreamUtils.map(characters, characterConverter::convert2DO);
+        characterRepository.saveAll(characterDOS);
+        return StreamUtils.map(characterDOS, characterConverter::convert2Model);
     }
 
     /**
@@ -72,6 +81,7 @@ public class CharacterService {
      * @param character 角色
      * @return 修改后角色
      */
+    @Transactional
     public Character updateCharacter(Character character) {
        CharacterDO characterDO = characterRepository.save(characterConverter.convert2DO(character));
        return characterConverter.convert2Model(characterDO);

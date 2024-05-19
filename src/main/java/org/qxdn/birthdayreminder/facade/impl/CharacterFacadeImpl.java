@@ -3,6 +3,7 @@ package org.qxdn.birthdayreminder.facade.impl;
 import org.qxdn.birthdayreminder.context.PageTotalContextHolder;
 import org.qxdn.birthdayreminder.facade.api.CharacterFacade;
 import org.qxdn.birthdayreminder.model.dto.request.AddCharacterRequest;
+import org.qxdn.birthdayreminder.model.dto.request.BatchAddCharacterRequest;
 import org.qxdn.birthdayreminder.model.dto.request.QueryCharacterRequest;
 import org.qxdn.birthdayreminder.model.dto.request.UpdateCharacterRequest;
 import org.qxdn.birthdayreminder.model.dto.response.BaseResponse;
@@ -53,6 +54,15 @@ public class CharacterFacadeImpl implements CharacterFacade {
         character = characterService.addCharacter(character);
         CharacterVO vo = characterConverter.convert2VO(character);
         return new BaseResponse<>(vo);
+    }
+
+    @Override
+    @Transactional
+    public BaseResponse<List<CharacterVO>> batchAddCharacter(BatchAddCharacterRequest requests) {
+        List<Character> characters = StreamUtils.map(requests.getBatchData(), characterConverter::AddCharacterRequest2Model);
+        characters = characterService.batchAddCharacter(characters);
+        List<CharacterVO> vos = StreamUtils.map(characters, characterConverter::convert2VO);
+        return new BaseResponse<>(vos);
     }
 
     @Transactional
