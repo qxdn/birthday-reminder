@@ -11,8 +11,12 @@ import java.util.List;
 
 public interface CharacterRepository extends JpaRepository<CharacterDO, Long> {
 
-    @Query("SELECT c FROM CharacterDO c WHERE c.birthMonth = :month AND c.birthDay = :day")
-    List<CharacterDO> findCharactersWithBirthday(@Param("month") Integer month, @Param("day") Integer birthday);
+    @Query("SELECT c FROM CharacterDO c WHERE" +
+            "(:year IS NULL OR c.birthYear = :year)" +
+            "AND (:month IS NULL OR c.birthMonth = :month)" +
+            "AND (:day IS NULL OR c.birthDay = :day)")
+    List<CharacterDO> findCharactersWithBirthday(@Param("year")Integer year, @Param("month") Integer month,
+                                                 @Param("day") Integer birthday);
 
     @Query("SELECT c FROM CharacterDO c " +
             "WHERE (:id IS NULL OR c.id = :id) " +

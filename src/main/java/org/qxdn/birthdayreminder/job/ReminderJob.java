@@ -40,7 +40,7 @@ public class ReminderJob extends QuartzJobBean {
     @Override
     protected void executeInternal(@NonNull JobExecutionContext context) throws JobExecutionException {
         Date now = DateUtils.now();
-        List<Character> characters = characterService.searchCharactersBirthDay(now);
+        List<Character> characters = characterService.searchCharactersBirthday(null,DateUtils.getMonth(now),DateUtils.getDay(now));
         List<ReminderService> reminderServices = reminderServiceLoader.getReminderServices();
         ReminderContent reminderContent = new ReminderContent();
         // 数据库读取

@@ -1,6 +1,7 @@
 package org.qxdn.birthdayreminder.services;
 
 
+import jakarta.annotation.Nullable;
 import org.qxdn.birthdayreminder.context.PageTotalContextHolder;
 import org.qxdn.birthdayreminder.model.dto.request.QueryCharacterRequest;
 import org.qxdn.birthdayreminder.model.entity.CharacterDO;
@@ -32,8 +33,8 @@ public class CharacterService {
      * @param date 日期
      * @return 角色列表
      */
-    public List<Character> searchCharactersBirthDay(Date date) {
-        List<CharacterDO> characterDOS =  characterRepository.findCharactersWithBirthday(DateUtils.getMonth(date),DateUtils.getDay(date));
+    public List<Character> searchCharactersBirthday(@Nullable Integer year, Integer month, Integer day) {
+        List<CharacterDO> characterDOS =  characterRepository.findCharactersWithBirthday(year, month, day);
         return StreamUtils.map(characterDOS, characterConverter::convert2Model);
     }
 

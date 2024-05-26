@@ -30,8 +30,8 @@ public class CharacterFacadeImpl implements CharacterFacade {
     private CharacterConverter characterConverter;
 
     @Override
-    public BaseResponse<List<CharacterVO>> searchCharacterWithBirthday(Date birthday) {
-        List<Character> characters = characterService.searchCharactersBirthDay(birthday);
+    public BaseResponse<List<CharacterVO>> searchCharacterWithBirthday(Integer year, Integer month, Integer day) {
+        List<Character> characters = characterService.searchCharactersBirthday(year, month, day);
         List<CharacterVO> vos = StreamUtils.map(characters, characterConverter::convert2VO);
         return new BaseResponse<>(vos);
     }

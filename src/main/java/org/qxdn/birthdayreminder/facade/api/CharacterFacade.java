@@ -12,7 +12,7 @@ import java.util.List;
 
 public interface CharacterFacade {
 
-    BaseResponse<List<CharacterVO>> searchCharacterWithBirthday(Date birthday);
+    BaseResponse<List<CharacterVO>> searchCharacterWithBirthday(Integer year, Integer month, Integer day);
 
     BaseResponse<List<CharacterVO>> queryCharacterList(QueryCharacterRequest request);
 

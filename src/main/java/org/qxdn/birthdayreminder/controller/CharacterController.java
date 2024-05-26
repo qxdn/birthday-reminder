@@ -24,12 +24,17 @@ public class CharacterController {
     private CharacterFacade characterFacade;
 
     @GetMapping("/birthday")
-    public BaseResponse<List<CharacterVO>> searchCharacterWithBirthday(@RequestParam(name = "birthday",required = false) String birthday) {
-        Date date = DateUtils.now();
-        if (Objects.nonNull(birthday)){
-            date = DateUtils.parseYMD(birthday);
+    public BaseResponse<List<CharacterVO>> searchCharacterWithBirthday(@RequestParam(name = "year",required = false) Integer year,@RequestParam(name = "month",required = false) Integer month,
+                                                                       @RequestParam(name = "day",required = false) Integer day,@RequestParam(name = "neeYear",required = false,defaultValue = "false") Boolean needYear) {
+        if (Objects.isNull(year) && Objects.isNull(month) && Objects.isNull(day)){
+           Date now = new Date();
+           if (needYear) {
+               year = DateUtils.getYear(now);
+           }
+           month = DateUtils.getMonth(now);
+           day = DateUtils.getDay(now);
         }
-        return characterFacade.searchCharacterWithBirthday(date);
+        return characterFacade.searchCharacterWithBirthday(year, month, day);
     }
 
     @GetMapping("/query")
