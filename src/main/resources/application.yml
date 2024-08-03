@@ -22,9 +22,13 @@ spring:
             port: ${MAIL_PORT:}
             class: javax.net.ssl.SSLSocketFactory
 
+  threads:
+    virtual:
+      enabled: true
+
+
   quartz:
     job-store-type: jdbc
-
 
 springdoc:
   api-docs:
