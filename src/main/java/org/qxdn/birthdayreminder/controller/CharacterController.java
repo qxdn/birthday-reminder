@@ -68,6 +68,11 @@ public class CharacterController {
         return characterFacade.updateCharacter(request);
     }
 
+    /**
+     * 根据id查询角色
+     * @param id 角色id
+     * @return 返回结果
+     */
     @GetMapping("/{id}")
     public BaseResponse<CharacterVO> queryById(@PathVariable Long id) {
         return characterFacade.queryById(id);

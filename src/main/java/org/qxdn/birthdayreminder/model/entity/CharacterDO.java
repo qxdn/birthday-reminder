@@ -37,7 +37,7 @@ public class CharacterDO extends BaseDO {
 
     /**
      * 角色别名
-     * @see org.qxdn.birthdayreminder.model.constants.BirthdayConstants CHARACTER_OTHER_NAME_SPLIT
+     * @see org.qxdn.birthdayreminder.model.constants.BirthdayConstants#CHARACTER_OTHER_NAME_SPLIT
      */
     @Column(name = "other_name")
     private String otherName = "";
@@ -65,6 +65,7 @@ public class CharacterDO extends BaseDO {
     private Integer birthYear;
     /**
      * 大字段，保存内容
+     * @see org.qxdn.birthdayreminder.model.model.content.CharacterContent
      */
     @Column(name = "content",columnDefinition = "LONGTEXT")
     private String content;
