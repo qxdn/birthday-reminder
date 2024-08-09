@@ -37,6 +37,7 @@ application-dev.yml
 
 /logs
 start.sh
+start.ps1
 
 /docs/node_modules
 /docs/.vitepress/cache

@@ -10,8 +10,20 @@
 <img src="./assets/overview.jpg"/>
 </details>
 
+# 编译
+## java
+```shell
+mvn clean package -DskipTests # 编译
+java -jar target/birthday-reminder-0.0.1-SNAPSHOT.jar # 运行
+```
+## native
+```shell
+mvn native:compile -Pnative -DskipTests # 编译
+./target/birthday-reminder-0.0.1-SNAPSHOT # 运行
+```
+
 # TODO
 - [ ] 接入OSS SDK
 - [ ] 其他通知类型
-- [*] 数据导入
-- [*] 简易文档
+- [x] 数据导入
+- [x] 简易文档

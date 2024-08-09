@@ -37,7 +37,6 @@ public class UserFacadeImpl implements UserFacade {
 
     @Override
     public BaseResponse<LoginVO> login(LoginRequest request) {
-        CheckUtils.notBlank(request.getUsername(),request.getPassword());
         User user = userService.getUserByUsername(request.getUsername());
         if (Objects.isNull(user) || !PasswordUtils.check(request.getPassword(),user.getPassword())){
             throw new BirthdayException(ErrorEnum.LOGIN_FAIL);
@@ -53,7 +52,6 @@ public class UserFacadeImpl implements UserFacade {
     @Transactional
     @Override
     public BaseResponse<UserVO> register(RegisterRequest request) {
-        CheckUtils.notBlank(request.getUsername(),request.getEmail(),request.getPassword());
         User user = userService.getUserByUsername(request.getUsername());
         if (Objects.nonNull(user)){
             throw new BirthdayException(ErrorEnum.USER_EXIST);
@@ -111,7 +109,6 @@ public class UserFacadeImpl implements UserFacade {
 
     @Override
     public BaseResponse<Void> forgetPassword(ForgetPasswordRequest request) {
-        CheckUtils.notBlank(request.getEmail());
         User user = userService.getUserByEmail(request.getEmail());
         // TODO： 有待完成
         LogUtils.warn(log,"忘记密码功能未完成");

@@ -11,7 +11,6 @@ import org.qxdn.birthdayreminder.model.dto.response.vo.CharacterVO;
 import org.qxdn.birthdayreminder.model.model.Character;
 import org.qxdn.birthdayreminder.services.CharacterService;
 import org.qxdn.birthdayreminder.services.converter.CharacterConverter;
-import org.qxdn.birthdayreminder.utils.CheckUtils;
 import org.qxdn.birthdayreminder.utils.StreamUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -68,8 +67,6 @@ public class CharacterFacadeImpl implements CharacterFacade {
     @Transactional
     @Override
     public BaseResponse<CharacterVO> updateCharacter(UpdateCharacterRequest request) {
-        //TODO: check request
-        CheckUtils.notNull(request.getId());
         Character character = characterConverter.updateCharacterRequest2Model(request);
         character = characterService.updateCharacter(character);
         CharacterVO vo = characterConverter.convert2VO(character);
