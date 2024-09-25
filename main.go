@@ -3,12 +3,10 @@ package main
 import (
 	"fmt"
 	"net/http"
-	"os"
 
 	"github.com/gin-gonic/gin"
 	"github.com/qxdn/birthday/config"
 	log "github.com/sirupsen/logrus"
-	"gopkg.in/yaml.v3"
 )
 
 const configPath = "./config.yaml"
@@ -19,16 +17,7 @@ func main() {
 		DisableColors: true,
 		FullTimestamp: true,
 	})
-	var config config.Config
-	// 读取配置
-	configFile, err := os.ReadFile(configPath)
-	if err != nil {
-		log.Fatalf("yamlFile.Get err   #%v ", err)
-	}
-	err = yaml.Unmarshal(configFile, &config)
-	if err != nil {
-		log.Fatalf("Unmarshal: %v", err)
-	}
+	var config = config.ReadConfig()
 	// gin设置
 	r := gin.Default()
 	r.GET("/ping", func(c *gin.Context) {
