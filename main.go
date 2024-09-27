@@ -20,8 +20,9 @@ func main() {
 	var config = config.ReadConfig()
 	// gin设置
 	r := gin.Default()
+	gin.DefaultWriter = log.StandardLogger().Writer()
 	r.GET("/ping", func(c *gin.Context) {
-		log.Infof("config: %v", config)
+		log.Infof("request:%v", c.Request)
 		c.JSON(http.StatusOK, gin.H{
 			"message": "pong",
 		})
