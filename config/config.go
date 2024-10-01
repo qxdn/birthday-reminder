@@ -6,8 +6,8 @@ import (
 )
 
 type Config struct {
-	App App `yaml:"app"`
-	DB  DB  `yaml:"db"`
+	App App `yaml:"app" json:"app"`
+	DB  DB  `yaml:"db" json:"db"`
 }
 
 type ApplicationConfig struct {
