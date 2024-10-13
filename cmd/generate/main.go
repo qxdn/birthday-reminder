@@ -5,6 +5,7 @@ import (
 
 	"github.com/iancoleman/strcase"
 	"github.com/qxdn/birthday/config"
+	"github.com/qxdn/birthday/model"
 	"gorm.io/driver/mysql"
 	"gorm.io/gen"
 	"gorm.io/gorm"
@@ -33,8 +34,9 @@ func main() {
 		return strcase.ToCamel(tableName) + "DO"
 	})
 
-	g.UseDB(db)                      // reuse your gorm db
-	allModel := g.GenerateAllTable() // generate all tables
-	g.ApplyBasic(allModel...)        // apply basic query
+	g.UseDB(db) // reuse your gorm db
+	//allModel := g.GenerateAllTable() // generate all tables
+	//g.ApplyBasic(allModel...)        // apply basic query
+	g.ApplyBasic(model.User{}, model.Character{}, model.Subscriber{}) // apply basic query
 	g.Execute()
 }

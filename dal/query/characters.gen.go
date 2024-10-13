@@ -16,86 +16,83 @@ import (
 
 	"gorm.io/plugin/dbresolver"
 
-	"github.com/qxdn/birthday/dal/entity"
+	"github.com/qxdn/birthday/model"
 )
 
-func newCharactersDO(db *gorm.DB, opts ...gen.DOOption) charactersDO {
-	_charactersDO := charactersDO{}
+func newCharacter(db *gorm.DB, opts ...gen.DOOption) character {
+	_character := character{}
 
-	_charactersDO.charactersDODo.UseDB(db, opts...)
-	_charactersDO.charactersDODo.UseModel(&entity.CharactersDO{})
+	_character.characterDo.UseDB(db, opts...)
+	_character.characterDo.UseModel(&model.Character{})
 
-	tableName := _charactersDO.charactersDODo.TableName()
-	_charactersDO.ALL = field.NewAsterisk(tableName)
-	_charactersDO.ID = field.NewInt64(tableName, "id")
-	_charactersDO.GmtCreate = field.NewTime(tableName, "gmt_create")
-	_charactersDO.GmtUpdate = field.NewTime(tableName, "gmt_update")
-	_charactersDO.BirthDay = field.NewInt32(tableName, "birth_day")
-	_charactersDO.BirthMonth = field.NewInt32(tableName, "birth_month")
-	_charactersDO.BirthYear = field.NewInt32(tableName, "birth_year")
-	_charactersDO.Comment = field.NewString(tableName, "comment")
-	_charactersDO.Content = field.NewString(tableName, "content")
-	_charactersDO.Gender = field.NewString(tableName, "gender")
-	_charactersDO.Name = field.NewString(tableName, "name")
-	_charactersDO.OriginName = field.NewString(tableName, "origin_name")
-	_charactersDO.OtherName = field.NewString(tableName, "other_name")
+	tableName := _character.characterDo.TableName()
+	_character.ALL = field.NewAsterisk(tableName)
+	_character.Id = field.NewInt(tableName, "id")
+	_character.GmtCreate = field.NewTime(tableName, "gmt_create")
+	_character.GmtUpdate = field.NewTime(tableName, "gmt_update")
+	_character.Name = field.NewString(tableName, "name")
+	_character.OriginName = field.NewString(tableName, "origin_name")
+	_character.OtherName = field.NewField(tableName, "other_name")
+	_character.BirthYear = field.NewInt(tableName, "birth_year")
+	_character.BirthMonth = field.NewInt(tableName, "birth_month")
+	_character.BirthDay = field.NewInt(tableName, "birth_day")
+	_character.Content = field.NewField(tableName, "content")
+	_character.Comment = field.NewString(tableName, "comment")
 
-	_charactersDO.fillFieldMap()
+	_character.fillFieldMap()
 
-	return _charactersDO
+	return _character
 }
 
-type charactersDO struct {
-	charactersDODo
+type character struct {
+	characterDo
 
 	ALL        field.Asterisk
-	ID         field.Int64
+	Id         field.Int
 	GmtCreate  field.Time
 	GmtUpdate  field.Time
-	BirthDay   field.Int32
-	BirthMonth field.Int32
-	BirthYear  field.Int32
-	Comment    field.String
-	Content    field.String
-	Gender     field.String
 	Name       field.String
 	OriginName field.String
-	OtherName  field.String
+	OtherName  field.Field
+	BirthYear  field.Int
+	BirthMonth field.Int
+	BirthDay   field.Int
+	Content    field.Field
+	Comment    field.String
 
 	fieldMap map[string]field.Expr
 }
 
-func (c charactersDO) Table(newTableName string) *charactersDO {
-	c.charactersDODo.UseTable(newTableName)
+func (c character) Table(newTableName string) *character {
+	c.characterDo.UseTable(newTableName)
 	return c.updateTableName(newTableName)
 }
 
-func (c charactersDO) As(alias string) *charactersDO {
-	c.charactersDODo.DO = *(c.charactersDODo.As(alias).(*gen.DO))
+func (c character) As(alias string) *character {
+	c.characterDo.DO = *(c.characterDo.As(alias).(*gen.DO))
 	return c.updateTableName(alias)
 }
 
-func (c *charactersDO) updateTableName(table string) *charactersDO {
+func (c *character) updateTableName(table string) *character {
 	c.ALL = field.NewAsterisk(table)
-	c.ID = field.NewInt64(table, "id")
+	c.Id = field.NewInt(table, "id")
 	c.GmtCreate = field.NewTime(table, "gmt_create")
 	c.GmtUpdate = field.NewTime(table, "gmt_update")
-	c.BirthDay = field.NewInt32(table, "birth_day")
-	c.BirthMonth = field.NewInt32(table, "birth_month")
-	c.BirthYear = field.NewInt32(table, "birth_year")
-	c.Comment = field.NewString(table, "comment")
-	c.Content = field.NewString(table, "content")
-	c.Gender = field.NewString(table, "gender")
 	c.Name = field.NewString(table, "name")
 	c.OriginName = field.NewString(table, "origin_name")
-	c.OtherName = field.NewString(table, "other_name")
+	c.OtherName = field.NewField(table, "other_name")
+	c.BirthYear = field.NewInt(table, "birth_year")
+	c.BirthMonth = field.NewInt(table, "birth_month")
+	c.BirthDay = field.NewInt(table, "birth_day")
+	c.Content = field.NewField(table, "content")
+	c.Comment = field.NewString(table, "comment")
 
 	c.fillFieldMap()
 
 	return c
 }
 
-func (c *charactersDO) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
+func (c *character) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 	_f, ok := c.fieldMap[fieldName]
 	if !ok || _f == nil {
 		return nil, false
@@ -104,74 +101,73 @@ func (c *charactersDO) GetFieldByName(fieldName string) (field.OrderExpr, bool) 
 	return _oe, ok
 }
 
-func (c *charactersDO) fillFieldMap() {
-	c.fieldMap = make(map[string]field.Expr, 12)
-	c.fieldMap["id"] = c.ID
+func (c *character) fillFieldMap() {
+	c.fieldMap = make(map[string]field.Expr, 11)
+	c.fieldMap["id"] = c.Id
 	c.fieldMap["gmt_create"] = c.GmtCreate
 	c.fieldMap["gmt_update"] = c.GmtUpdate
-	c.fieldMap["birth_day"] = c.BirthDay
-	c.fieldMap["birth_month"] = c.BirthMonth
-	c.fieldMap["birth_year"] = c.BirthYear
-	c.fieldMap["comment"] = c.Comment
-	c.fieldMap["content"] = c.Content
-	c.fieldMap["gender"] = c.Gender
 	c.fieldMap["name"] = c.Name
 	c.fieldMap["origin_name"] = c.OriginName
 	c.fieldMap["other_name"] = c.OtherName
+	c.fieldMap["birth_year"] = c.BirthYear
+	c.fieldMap["birth_month"] = c.BirthMonth
+	c.fieldMap["birth_day"] = c.BirthDay
+	c.fieldMap["content"] = c.Content
+	c.fieldMap["comment"] = c.Comment
 }
 
-func (c charactersDO) clone(db *gorm.DB) charactersDO {
-	c.charactersDODo.ReplaceConnPool(db.Statement.ConnPool)
+func (c character) clone(db *gorm.DB) character {
+	c.characterDo.ReplaceConnPool(db.Statement.ConnPool)
 	return c
 }
 
-func (c charactersDO) replaceDB(db *gorm.DB) charactersDO {
-	c.charactersDODo.ReplaceDB(db)
+func (c character) replaceDB(db *gorm.DB) character {
+	c.characterDo.ReplaceDB(db)
 	return c
 }
 
-type charactersDODo struct{ gen.DO }
+type characterDo struct{ gen.DO }
 
-type ICharactersDODo interface {
+type ICharacterDo interface {
 	gen.SubQuery
-	Debug() ICharactersDODo
-	WithContext(ctx context.Context) ICharactersDODo
+	Debug() ICharacterDo
+	WithContext(ctx context.Context) ICharacterDo
 	WithResult(fc func(tx gen.Dao)) gen.ResultInfo
 	ReplaceDB(db *gorm.DB)
-	ReadDB() ICharactersDODo
-	WriteDB() ICharactersDODo
+	ReadDB() ICharacterDo
+	WriteDB() ICharacterDo
 	As(alias string) gen.Dao
-	Session(config *gorm.Session) ICharactersDODo
+	Session(config *gorm.Session) ICharacterDo
 	Columns(cols ...field.Expr) gen.Columns
-	Clauses(conds ...clause.Expression) ICharactersDODo
-	Not(conds ...gen.Condition) ICharactersDODo
-	Or(conds ...gen.Condition) ICharactersDODo
-	Select(conds ...field.Expr) ICharactersDODo
-	Where(conds ...gen.Condition) ICharactersDODo
-	Order(conds ...field.Expr) ICharactersDODo
-	Distinct(cols ...field.Expr) ICharactersDODo
-	Omit(cols ...field.Expr) ICharactersDODo
-	Join(table schema.Tabler, on ...field.Expr) ICharactersDODo
-	LeftJoin(table schema.Tabler, on ...field.Expr) ICharactersDODo
-	RightJoin(table schema.Tabler, on ...field.Expr) ICharactersDODo
-	Group(cols ...field.Expr) ICharactersDODo
-	Having(conds ...gen.Condition) ICharactersDODo
-	Limit(limit int) ICharactersDODo
-	Offset(offset int) ICharactersDODo
+	Clauses(conds ...clause.Expression) ICharacterDo
+	Not(conds ...gen.Condition) ICharacterDo
+	Or(conds ...gen.Condition) ICharacterDo
+	Select(conds ...field.Expr) ICharacterDo
+	Where(conds ...gen.Condition) ICharacterDo
+	Order(conds ...field.Expr) ICharacterDo
+	Distinct(cols ...field.Expr) ICharacterDo
+	Omit(cols ...field.Expr) ICharacterDo
+	Join(table schema.Tabler, on ...field.Expr) ICharacterDo
+	LeftJoin(table schema.Tabler, on ...field.Expr) ICharacterDo
+	RightJoin(table schema.Tabler, on ...field.Expr) ICharacterDo
+	Group(cols ...field.Expr) ICharacterDo
+	Having(conds ...gen.Condition) ICharacterDo
+	Limit(limit int) ICharacterDo
+	Offset(offset int) ICharacterDo
 	Count() (count int64, err error)
-	Scopes(funcs ...func(gen.Dao) gen.Dao) ICharactersDODo
-	Unscoped() ICharactersDODo
-	Create(values ...*entity.CharactersDO) error
-	CreateInBatches(values []*entity.CharactersDO, batchSize int) error
-	Save(values ...*entity.CharactersDO) error
-	First() (*entity.CharactersDO, error)
-	Take() (*entity.CharactersDO, error)
-	Last() (*entity.CharactersDO, error)
-	Find() ([]*entity.CharactersDO, error)
-	FindInBatch(batchSize int, fc func(tx gen.Dao, batch int) error) (results []*entity.CharactersDO, err error)
-	FindInBatches(result *[]*entity.CharactersDO, batchSize int, fc func(tx gen.Dao, batch int) error) error
+	Scopes(funcs ...func(gen.Dao) gen.Dao) ICharacterDo
+	Unscoped() ICharacterDo
+	Create(values ...*model.Character) error
+	CreateInBatches(values []*model.Character, batchSize int) error
+	Save(values ...*model.Character) error
+	First() (*model.Character, error)
+	Take() (*model.Character, error)
+	Last() (*model.Character, error)
+	Find() ([]*model.Character, error)
+	FindInBatch(batchSize int, fc func(tx gen.Dao, batch int) error) (results []*model.Character, err error)
+	FindInBatches(result *[]*model.Character, batchSize int, fc func(tx gen.Dao, batch int) error) error
 	Pluck(column field.Expr, dest interface{}) error
-	Delete(...*entity.CharactersDO) (info gen.ResultInfo, err error)
+	Delete(...*model.Character) (info gen.ResultInfo, err error)
 	Update(column field.Expr, value interface{}) (info gen.ResultInfo, err error)
 	UpdateSimple(columns ...field.AssignExpr) (info gen.ResultInfo, err error)
 	Updates(value interface{}) (info gen.ResultInfo, err error)
@@ -179,163 +175,163 @@ type ICharactersDODo interface {
 	UpdateColumnSimple(columns ...field.AssignExpr) (info gen.ResultInfo, err error)
 	UpdateColumns(value interface{}) (info gen.ResultInfo, err error)
 	UpdateFrom(q gen.SubQuery) gen.Dao
-	Attrs(attrs ...field.AssignExpr) ICharactersDODo
-	Assign(attrs ...field.AssignExpr) ICharactersDODo
-	Joins(fields ...field.RelationField) ICharactersDODo
-	Preload(fields ...field.RelationField) ICharactersDODo
-	FirstOrInit() (*entity.CharactersDO, error)
-	FirstOrCreate() (*entity.CharactersDO, error)
-	FindByPage(offset int, limit int) (result []*entity.CharactersDO, count int64, err error)
+	Attrs(attrs ...field.AssignExpr) ICharacterDo
+	Assign(attrs ...field.AssignExpr) ICharacterDo
+	Joins(fields ...field.RelationField) ICharacterDo
+	Preload(fields ...field.RelationField) ICharacterDo
+	FirstOrInit() (*model.Character, error)
+	FirstOrCreate() (*model.Character, error)
+	FindByPage(offset int, limit int) (result []*model.Character, count int64, err error)
 	ScanByPage(result interface{}, offset int, limit int) (count int64, err error)
 	Scan(result interface{}) (err error)
-	Returning(value interface{}, columns ...string) ICharactersDODo
+	Returning(value interface{}, columns ...string) ICharacterDo
 	UnderlyingDB() *gorm.DB
 	schema.Tabler
 }
 
-func (c charactersDODo) Debug() ICharactersDODo {
+func (c characterDo) Debug() ICharacterDo {
 	return c.withDO(c.DO.Debug())
 }
 
-func (c charactersDODo) WithContext(ctx context.Context) ICharactersDODo {
+func (c characterDo) WithContext(ctx context.Context) ICharacterDo {
 	return c.withDO(c.DO.WithContext(ctx))
 }
 
-func (c charactersDODo) ReadDB() ICharactersDODo {
+func (c characterDo) ReadDB() ICharacterDo {
 	return c.Clauses(dbresolver.Read)
 }
 
-func (c charactersDODo) WriteDB() ICharactersDODo {
+func (c characterDo) WriteDB() ICharacterDo {
 	return c.Clauses(dbresolver.Write)
 }
 
-func (c charactersDODo) Session(config *gorm.Session) ICharactersDODo {
+func (c characterDo) Session(config *gorm.Session) ICharacterDo {
 	return c.withDO(c.DO.Session(config))
 }
 
-func (c charactersDODo) Clauses(conds ...clause.Expression) ICharactersDODo {
+func (c characterDo) Clauses(conds ...clause.Expression) ICharacterDo {
 	return c.withDO(c.DO.Clauses(conds...))
 }
 
-func (c charactersDODo) Returning(value interface{}, columns ...string) ICharactersDODo {
+func (c characterDo) Returning(value interface{}, columns ...string) ICharacterDo {
 	return c.withDO(c.DO.Returning(value, columns...))
 }
 
-func (c charactersDODo) Not(conds ...gen.Condition) ICharactersDODo {
+func (c characterDo) Not(conds ...gen.Condition) ICharacterDo {
 	return c.withDO(c.DO.Not(conds...))
 }
 
-func (c charactersDODo) Or(conds ...gen.Condition) ICharactersDODo {
+func (c characterDo) Or(conds ...gen.Condition) ICharacterDo {
 	return c.withDO(c.DO.Or(conds...))
 }
 
-func (c charactersDODo) Select(conds ...field.Expr) ICharactersDODo {
+func (c characterDo) Select(conds ...field.Expr) ICharacterDo {
 	return c.withDO(c.DO.Select(conds...))
 }
 
-func (c charactersDODo) Where(conds ...gen.Condition) ICharactersDODo {
+func (c characterDo) Where(conds ...gen.Condition) ICharacterDo {
 	return c.withDO(c.DO.Where(conds...))
 }
 
-func (c charactersDODo) Order(conds ...field.Expr) ICharactersDODo {
+func (c characterDo) Order(conds ...field.Expr) ICharacterDo {
 	return c.withDO(c.DO.Order(conds...))
 }
 
-func (c charactersDODo) Distinct(cols ...field.Expr) ICharactersDODo {
+func (c characterDo) Distinct(cols ...field.Expr) ICharacterDo {
 	return c.withDO(c.DO.Distinct(cols...))
 }
 
-func (c charactersDODo) Omit(cols ...field.Expr) ICharactersDODo {
+func (c characterDo) Omit(cols ...field.Expr) ICharacterDo {
 	return c.withDO(c.DO.Omit(cols...))
 }
 
-func (c charactersDODo) Join(table schema.Tabler, on ...field.Expr) ICharactersDODo {
+func (c characterDo) Join(table schema.Tabler, on ...field.Expr) ICharacterDo {
 	return c.withDO(c.DO.Join(table, on...))
 }
 
-func (c charactersDODo) LeftJoin(table schema.Tabler, on ...field.Expr) ICharactersDODo {
+func (c characterDo) LeftJoin(table schema.Tabler, on ...field.Expr) ICharacterDo {
 	return c.withDO(c.DO.LeftJoin(table, on...))
 }
 
-func (c charactersDODo) RightJoin(table schema.Tabler, on ...field.Expr) ICharactersDODo {
+func (c characterDo) RightJoin(table schema.Tabler, on ...field.Expr) ICharacterDo {
 	return c.withDO(c.DO.RightJoin(table, on...))
 }
 
-func (c charactersDODo) Group(cols ...field.Expr) ICharactersDODo {
+func (c characterDo) Group(cols ...field.Expr) ICharacterDo {
 	return c.withDO(c.DO.Group(cols...))
 }
 
-func (c charactersDODo) Having(conds ...gen.Condition) ICharactersDODo {
+func (c characterDo) Having(conds ...gen.Condition) ICharacterDo {
 	return c.withDO(c.DO.Having(conds...))
 }
 
-func (c charactersDODo) Limit(limit int) ICharactersDODo {
+func (c characterDo) Limit(limit int) ICharacterDo {
 	return c.withDO(c.DO.Limit(limit))
 }
 
-func (c charactersDODo) Offset(offset int) ICharactersDODo {
+func (c characterDo) Offset(offset int) ICharacterDo {
 	return c.withDO(c.DO.Offset(offset))
 }
 
-func (c charactersDODo) Scopes(funcs ...func(gen.Dao) gen.Dao) ICharactersDODo {
+func (c characterDo) Scopes(funcs ...func(gen.Dao) gen.Dao) ICharacterDo {
 	return c.withDO(c.DO.Scopes(funcs...))
 }
 
-func (c charactersDODo) Unscoped() ICharactersDODo {
+func (c characterDo) Unscoped() ICharacterDo {
 	return c.withDO(c.DO.Unscoped())
 }
 
-func (c charactersDODo) Create(values ...*entity.CharactersDO) error {
+func (c characterDo) Create(values ...*model.Character) error {
 	if len(values) == 0 {
 		return nil
 	}
 	return c.DO.Create(values)
 }
 
-func (c charactersDODo) CreateInBatches(values []*entity.CharactersDO, batchSize int) error {
+func (c characterDo) CreateInBatches(values []*model.Character, batchSize int) error {
 	return c.DO.CreateInBatches(values, batchSize)
 }
 
 // Save : !!! underlying implementation is different with GORM
 // The method is equivalent to executing the statement: db.Clauses(clause.OnConflict{UpdateAll: true}).Create(values)
-func (c charactersDODo) Save(values ...*entity.CharactersDO) error {
+func (c characterDo) Save(values ...*model.Character) error {
 	if len(values) == 0 {
 		return nil
 	}
 	return c.DO.Save(values)
 }
 
-func (c charactersDODo) First() (*entity.CharactersDO, error) {
+func (c characterDo) First() (*model.Character, error) {
 	if result, err := c.DO.First(); err != nil {
 		return nil, err
 	} else {
-		return result.(*entity.CharactersDO), nil
+		return result.(*model.Character), nil
 	}
 }
 
-func (c charactersDODo) Take() (*entity.CharactersDO, error) {
+func (c characterDo) Take() (*model.Character, error) {
 	if result, err := c.DO.Take(); err != nil {
 		return nil, err
 	} else {
-		return result.(*entity.CharactersDO), nil
+		return result.(*model.Character), nil
 	}
 }
 
-func (c charactersDODo) Last() (*entity.CharactersDO, error) {
+func (c characterDo) Last() (*model.Character, error) {
 	if result, err := c.DO.Last(); err != nil {
 		return nil, err
 	} else {
-		return result.(*entity.CharactersDO), nil
+		return result.(*model.Character), nil
 	}
 }
 
-func (c charactersDODo) Find() ([]*entity.CharactersDO, error) {
+func (c characterDo) Find() ([]*model.Character, error) {
 	result, err := c.DO.Find()
-	return result.([]*entity.CharactersDO), err
+	return result.([]*model.Character), err
 }
 
-func (c charactersDODo) FindInBatch(batchSize int, fc func(tx gen.Dao, batch int) error) (results []*entity.CharactersDO, err error) {
-	buf := make([]*entity.CharactersDO, 0, batchSize)
+func (c characterDo) FindInBatch(batchSize int, fc func(tx gen.Dao, batch int) error) (results []*model.Character, err error) {
+	buf := make([]*model.Character, 0, batchSize)
 	err = c.DO.FindInBatches(&buf, batchSize, func(tx gen.Dao, batch int) error {
 		defer func() { results = append(results, buf...) }()
 		return fc(tx, batch)
@@ -343,49 +339,49 @@ func (c charactersDODo) FindInBatch(batchSize int, fc func(tx gen.Dao, batch int
 	return results, err
 }
 
-func (c charactersDODo) FindInBatches(result *[]*entity.CharactersDO, batchSize int, fc func(tx gen.Dao, batch int) error) error {
+func (c characterDo) FindInBatches(result *[]*model.Character, batchSize int, fc func(tx gen.Dao, batch int) error) error {
 	return c.DO.FindInBatches(result, batchSize, fc)
 }
 
-func (c charactersDODo) Attrs(attrs ...field.AssignExpr) ICharactersDODo {
+func (c characterDo) Attrs(attrs ...field.AssignExpr) ICharacterDo {
 	return c.withDO(c.DO.Attrs(attrs...))
 }
 
-func (c charactersDODo) Assign(attrs ...field.AssignExpr) ICharactersDODo {
+func (c characterDo) Assign(attrs ...field.AssignExpr) ICharacterDo {
 	return c.withDO(c.DO.Assign(attrs...))
 }
 
-func (c charactersDODo) Joins(fields ...field.RelationField) ICharactersDODo {
+func (c characterDo) Joins(fields ...field.RelationField) ICharacterDo {
 	for _, _f := range fields {
 		c = *c.withDO(c.DO.Joins(_f))
 	}
 	return &c
 }
 
-func (c charactersDODo) Preload(fields ...field.RelationField) ICharactersDODo {
+func (c characterDo) Preload(fields ...field.RelationField) ICharacterDo {
 	for _, _f := range fields {
 		c = *c.withDO(c.DO.Preload(_f))
 	}
 	return &c
 }
 
-func (c charactersDODo) FirstOrInit() (*entity.CharactersDO, error) {
+func (c characterDo) FirstOrInit() (*model.Character, error) {
 	if result, err := c.DO.FirstOrInit(); err != nil {
 		return nil, err
 	} else {
-		return result.(*entity.CharactersDO), nil
+		return result.(*model.Character), nil
 	}
 }
 
-func (c charactersDODo) FirstOrCreate() (*entity.CharactersDO, error) {
+func (c characterDo) FirstOrCreate() (*model.Character, error) {
 	if result, err := c.DO.FirstOrCreate(); err != nil {
 		return nil, err
 	} else {
-		return result.(*entity.CharactersDO), nil
+		return result.(*model.Character), nil
 	}
 }
 
-func (c charactersDODo) FindByPage(offset int, limit int) (result []*entity.CharactersDO, count int64, err error) {
+func (c characterDo) FindByPage(offset int, limit int) (result []*model.Character, count int64, err error) {
 	result, err = c.Offset(offset).Limit(limit).Find()
 	if err != nil {
 		return
@@ -400,7 +396,7 @@ func (c charactersDODo) FindByPage(offset int, limit int) (result []*entity.Char
 	return
 }
 
-func (c charactersDODo) ScanByPage(result interface{}, offset int, limit int) (count int64, err error) {
+func (c characterDo) ScanByPage(result interface{}, offset int, limit int) (count int64, err error) {
 	count, err = c.Count()
 	if err != nil {
 		return
@@ -410,15 +406,15 @@ func (c charactersDODo) ScanByPage(result interface{}, offset int, limit int) (c
 	return
 }
 
-func (c charactersDODo) Scan(result interface{}) (err error) {
+func (c characterDo) Scan(result interface{}) (err error) {
 	return c.DO.Scan(result)
 }
 
-func (c charactersDODo) Delete(models ...*entity.CharactersDO) (result gen.ResultInfo, err error) {
+func (c characterDo) Delete(models ...*model.Character) (result gen.ResultInfo, err error) {
 	return c.DO.Delete(models)
 }
 
-func (c *charactersDODo) withDO(do gen.Dao) *charactersDODo {
+func (c *characterDo) withDO(do gen.Dao) *characterDo {
 	c.DO = *do.(*gen.DO)
 	return c
 }

@@ -6,5 +6,5 @@ type User struct {
 	Email    string // 邮箱
 	Avatar   string // 头像
 	Password string // 密码
-	role     string // 角色
+	Role     string // 角色
 }

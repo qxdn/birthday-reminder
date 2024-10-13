@@ -16,66 +16,66 @@ import (
 
 	"gorm.io/plugin/dbresolver"
 
-	"github.com/qxdn/birthday/dal/entity"
+	"github.com/qxdn/birthday/model"
 )
 
-func newUsersDO(db *gorm.DB, opts ...gen.DOOption) usersDO {
-	_usersDO := usersDO{}
+func newUser(db *gorm.DB, opts ...gen.DOOption) user {
+	_user := user{}
 
-	_usersDO.usersDODo.UseDB(db, opts...)
-	_usersDO.usersDODo.UseModel(&entity.UsersDO{})
+	_user.userDo.UseDB(db, opts...)
+	_user.userDo.UseModel(&model.User{})
 
-	tableName := _usersDO.usersDODo.TableName()
-	_usersDO.ALL = field.NewAsterisk(tableName)
-	_usersDO.ID = field.NewInt64(tableName, "id")
-	_usersDO.GmtCreate = field.NewTime(tableName, "gmt_create")
-	_usersDO.GmtUpdate = field.NewTime(tableName, "gmt_update")
-	_usersDO.Username = field.NewString(tableName, "username")
-	_usersDO.Password = field.NewString(tableName, "password")
-	_usersDO.Avatar = field.NewString(tableName, "avatar")
-	_usersDO.Email = field.NewString(tableName, "email")
-	_usersDO.Role = field.NewString(tableName, "role")
+	tableName := _user.userDo.TableName()
+	_user.ALL = field.NewAsterisk(tableName)
+	_user.Id = field.NewInt(tableName, "id")
+	_user.GmtCreate = field.NewTime(tableName, "gmt_create")
+	_user.GmtUpdate = field.NewTime(tableName, "gmt_update")
+	_user.Username = field.NewString(tableName, "username")
+	_user.Email = field.NewString(tableName, "email")
+	_user.Avatar = field.NewString(tableName, "avatar")
+	_user.Password = field.NewString(tableName, "password")
+	_user.Role = field.NewString(tableName, "role")
 
-	_usersDO.fillFieldMap()
+	_user.fillFieldMap()
 
-	return _usersDO
+	return _user
 }
 
-type usersDO struct {
-	usersDODo
+type user struct {
+	userDo
 
 	ALL       field.Asterisk
-	ID        field.Int64
+	Id        field.Int
 	GmtCreate field.Time
 	GmtUpdate field.Time
 	Username  field.String
-	Password  field.String
-	Avatar    field.String
 	Email     field.String
+	Avatar    field.String
+	Password  field.String
 	Role      field.String
 
 	fieldMap map[string]field.Expr
 }
 
-func (u usersDO) Table(newTableName string) *usersDO {
-	u.usersDODo.UseTable(newTableName)
+func (u user) Table(newTableName string) *user {
+	u.userDo.UseTable(newTableName)
 	return u.updateTableName(newTableName)
 }
 
-func (u usersDO) As(alias string) *usersDO {
-	u.usersDODo.DO = *(u.usersDODo.As(alias).(*gen.DO))
+func (u user) As(alias string) *user {
+	u.userDo.DO = *(u.userDo.As(alias).(*gen.DO))
 	return u.updateTableName(alias)
 }
 
-func (u *usersDO) updateTableName(table string) *usersDO {
+func (u *user) updateTableName(table string) *user {
 	u.ALL = field.NewAsterisk(table)
-	u.ID = field.NewInt64(table, "id")
+	u.Id = field.NewInt(table, "id")
 	u.GmtCreate = field.NewTime(table, "gmt_create")
 	u.GmtUpdate = field.NewTime(table, "gmt_update")
 	u.Username = field.NewString(table, "username")
-	u.Password = field.NewString(table, "password")
-	u.Avatar = field.NewString(table, "avatar")
 	u.Email = field.NewString(table, "email")
+	u.Avatar = field.NewString(table, "avatar")
+	u.Password = field.NewString(table, "password")
 	u.Role = field.NewString(table, "role")
 
 	u.fillFieldMap()
@@ -83,7 +83,7 @@ func (u *usersDO) updateTableName(table string) *usersDO {
 	return u
 }
 
-func (u *usersDO) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
+func (u *user) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 	_f, ok := u.fieldMap[fieldName]
 	if !ok || _f == nil {
 		return nil, false
@@ -92,70 +92,70 @@ func (u *usersDO) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 	return _oe, ok
 }
 
-func (u *usersDO) fillFieldMap() {
+func (u *user) fillFieldMap() {
 	u.fieldMap = make(map[string]field.Expr, 8)
-	u.fieldMap["id"] = u.ID
+	u.fieldMap["id"] = u.Id
 	u.fieldMap["gmt_create"] = u.GmtCreate
 	u.fieldMap["gmt_update"] = u.GmtUpdate
 	u.fieldMap["username"] = u.Username
-	u.fieldMap["password"] = u.Password
-	u.fieldMap["avatar"] = u.Avatar
 	u.fieldMap["email"] = u.Email
+	u.fieldMap["avatar"] = u.Avatar
+	u.fieldMap["password"] = u.Password
 	u.fieldMap["role"] = u.Role
 }
 
-func (u usersDO) clone(db *gorm.DB) usersDO {
-	u.usersDODo.ReplaceConnPool(db.Statement.ConnPool)
+func (u user) clone(db *gorm.DB) user {
+	u.userDo.ReplaceConnPool(db.Statement.ConnPool)
 	return u
 }
 
-func (u usersDO) replaceDB(db *gorm.DB) usersDO {
-	u.usersDODo.ReplaceDB(db)
+func (u user) replaceDB(db *gorm.DB) user {
+	u.userDo.ReplaceDB(db)
 	return u
 }
 
-type usersDODo struct{ gen.DO }
+type userDo struct{ gen.DO }
 
-type IUsersDODo interface {
+type IUserDo interface {
 	gen.SubQuery
-	Debug() IUsersDODo
-	WithContext(ctx context.Context) IUsersDODo
+	Debug() IUserDo
+	WithContext(ctx context.Context) IUserDo
 	WithResult(fc func(tx gen.Dao)) gen.ResultInfo
 	ReplaceDB(db *gorm.DB)
-	ReadDB() IUsersDODo
-	WriteDB() IUsersDODo
+	ReadDB() IUserDo
+	WriteDB() IUserDo
 	As(alias string) gen.Dao
-	Session(config *gorm.Session) IUsersDODo
+	Session(config *gorm.Session) IUserDo
 	Columns(cols ...field.Expr) gen.Columns
-	Clauses(conds ...clause.Expression) IUsersDODo
-	Not(conds ...gen.Condition) IUsersDODo
-	Or(conds ...gen.Condition) IUsersDODo
-	Select(conds ...field.Expr) IUsersDODo
-	Where(conds ...gen.Condition) IUsersDODo
-	Order(conds ...field.Expr) IUsersDODo
-	Distinct(cols ...field.Expr) IUsersDODo
-	Omit(cols ...field.Expr) IUsersDODo
-	Join(table schema.Tabler, on ...field.Expr) IUsersDODo
-	LeftJoin(table schema.Tabler, on ...field.Expr) IUsersDODo
-	RightJoin(table schema.Tabler, on ...field.Expr) IUsersDODo
-	Group(cols ...field.Expr) IUsersDODo
-	Having(conds ...gen.Condition) IUsersDODo
-	Limit(limit int) IUsersDODo
-	Offset(offset int) IUsersDODo
+	Clauses(conds ...clause.Expression) IUserDo
+	Not(conds ...gen.Condition) IUserDo
+	Or(conds ...gen.Condition) IUserDo
+	Select(conds ...field.Expr) IUserDo
+	Where(conds ...gen.Condition) IUserDo
+	Order(conds ...field.Expr) IUserDo
+	Distinct(cols ...field.Expr) IUserDo
+	Omit(cols ...field.Expr) IUserDo
+	Join(table schema.Tabler, on ...field.Expr) IUserDo
+	LeftJoin(table schema.Tabler, on ...field.Expr) IUserDo
+	RightJoin(table schema.Tabler, on ...field.Expr) IUserDo
+	Group(cols ...field.Expr) IUserDo
+	Having(conds ...gen.Condition) IUserDo
+	Limit(limit int) IUserDo
+	Offset(offset int) IUserDo
 	Count() (count int64, err error)
-	Scopes(funcs ...func(gen.Dao) gen.Dao) IUsersDODo
-	Unscoped() IUsersDODo
-	Create(values ...*entity.UsersDO) error
-	CreateInBatches(values []*entity.UsersDO, batchSize int) error
-	Save(values ...*entity.UsersDO) error
-	First() (*entity.UsersDO, error)
-	Take() (*entity.UsersDO, error)
-	Last() (*entity.UsersDO, error)
-	Find() ([]*entity.UsersDO, error)
-	FindInBatch(batchSize int, fc func(tx gen.Dao, batch int) error) (results []*entity.UsersDO, err error)
-	FindInBatches(result *[]*entity.UsersDO, batchSize int, fc func(tx gen.Dao, batch int) error) error
+	Scopes(funcs ...func(gen.Dao) gen.Dao) IUserDo
+	Unscoped() IUserDo
+	Create(values ...*model.User) error
+	CreateInBatches(values []*model.User, batchSize int) error
+	Save(values ...*model.User) error
+	First() (*model.User, error)
+	Take() (*model.User, error)
+	Last() (*model.User, error)
+	Find() ([]*model.User, error)
+	FindInBatch(batchSize int, fc func(tx gen.Dao, batch int) error) (results []*model.User, err error)
+	FindInBatches(result *[]*model.User, batchSize int, fc func(tx gen.Dao, batch int) error) error
 	Pluck(column field.Expr, dest interface{}) error
-	Delete(...*entity.UsersDO) (info gen.ResultInfo, err error)
+	Delete(...*model.User) (info gen.ResultInfo, err error)
 	Update(column field.Expr, value interface{}) (info gen.ResultInfo, err error)
 	UpdateSimple(columns ...field.AssignExpr) (info gen.ResultInfo, err error)
 	Updates(value interface{}) (info gen.ResultInfo, err error)
@@ -163,163 +163,163 @@ type IUsersDODo interface {
 	UpdateColumnSimple(columns ...field.AssignExpr) (info gen.ResultInfo, err error)
 	UpdateColumns(value interface{}) (info gen.ResultInfo, err error)
 	UpdateFrom(q gen.SubQuery) gen.Dao
-	Attrs(attrs ...field.AssignExpr) IUsersDODo
-	Assign(attrs ...field.AssignExpr) IUsersDODo
-	Joins(fields ...field.RelationField) IUsersDODo
-	Preload(fields ...field.RelationField) IUsersDODo
-	FirstOrInit() (*entity.UsersDO, error)
-	FirstOrCreate() (*entity.UsersDO, error)
-	FindByPage(offset int, limit int) (result []*entity.UsersDO, count int64, err error)
+	Attrs(attrs ...field.AssignExpr) IUserDo
+	Assign(attrs ...field.AssignExpr) IUserDo
+	Joins(fields ...field.RelationField) IUserDo
+	Preload(fields ...field.RelationField) IUserDo
+	FirstOrInit() (*model.User, error)
+	FirstOrCreate() (*model.User, error)
+	FindByPage(offset int, limit int) (result []*model.User, count int64, err error)
 	ScanByPage(result interface{}, offset int, limit int) (count int64, err error)
 	Scan(result interface{}) (err error)
-	Returning(value interface{}, columns ...string) IUsersDODo
+	Returning(value interface{}, columns ...string) IUserDo
 	UnderlyingDB() *gorm.DB
 	schema.Tabler
 }
 
-func (u usersDODo) Debug() IUsersDODo {
+func (u userDo) Debug() IUserDo {
 	return u.withDO(u.DO.Debug())
 }
 
-func (u usersDODo) WithContext(ctx context.Context) IUsersDODo {
+func (u userDo) WithContext(ctx context.Context) IUserDo {
 	return u.withDO(u.DO.WithContext(ctx))
 }
 
-func (u usersDODo) ReadDB() IUsersDODo {
+func (u userDo) ReadDB() IUserDo {
 	return u.Clauses(dbresolver.Read)
 }
 
-func (u usersDODo) WriteDB() IUsersDODo {
+func (u userDo) WriteDB() IUserDo {
 	return u.Clauses(dbresolver.Write)
 }
 
-func (u usersDODo) Session(config *gorm.Session) IUsersDODo {
+func (u userDo) Session(config *gorm.Session) IUserDo {
 	return u.withDO(u.DO.Session(config))
 }
 
-func (u usersDODo) Clauses(conds ...clause.Expression) IUsersDODo {
+func (u userDo) Clauses(conds ...clause.Expression) IUserDo {
 	return u.withDO(u.DO.Clauses(conds...))
 }
 
-func (u usersDODo) Returning(value interface{}, columns ...string) IUsersDODo {
+func (u userDo) Returning(value interface{}, columns ...string) IUserDo {
 	return u.withDO(u.DO.Returning(value, columns...))
 }
 
-func (u usersDODo) Not(conds ...gen.Condition) IUsersDODo {
+func (u userDo) Not(conds ...gen.Condition) IUserDo {
 	return u.withDO(u.DO.Not(conds...))
 }
 
-func (u usersDODo) Or(conds ...gen.Condition) IUsersDODo {
+func (u userDo) Or(conds ...gen.Condition) IUserDo {
 	return u.withDO(u.DO.Or(conds...))
 }
 
-func (u usersDODo) Select(conds ...field.Expr) IUsersDODo {
+func (u userDo) Select(conds ...field.Expr) IUserDo {
 	return u.withDO(u.DO.Select(conds...))
 }
 
-func (u usersDODo) Where(conds ...gen.Condition) IUsersDODo {
+func (u userDo) Where(conds ...gen.Condition) IUserDo {
 	return u.withDO(u.DO.Where(conds...))
 }
 
-func (u usersDODo) Order(conds ...field.Expr) IUsersDODo {
+func (u userDo) Order(conds ...field.Expr) IUserDo {
 	return u.withDO(u.DO.Order(conds...))
 }
 
-func (u usersDODo) Distinct(cols ...field.Expr) IUsersDODo {
+func (u userDo) Distinct(cols ...field.Expr) IUserDo {
 	return u.withDO(u.DO.Distinct(cols...))
 }
 
-func (u usersDODo) Omit(cols ...field.Expr) IUsersDODo {
+func (u userDo) Omit(cols ...field.Expr) IUserDo {
 	return u.withDO(u.DO.Omit(cols...))
 }
 
-func (u usersDODo) Join(table schema.Tabler, on ...field.Expr) IUsersDODo {
+func (u userDo) Join(table schema.Tabler, on ...field.Expr) IUserDo {
 	return u.withDO(u.DO.Join(table, on...))
 }
 
-func (u usersDODo) LeftJoin(table schema.Tabler, on ...field.Expr) IUsersDODo {
+func (u userDo) LeftJoin(table schema.Tabler, on ...field.Expr) IUserDo {
 	return u.withDO(u.DO.LeftJoin(table, on...))
 }
 
-func (u usersDODo) RightJoin(table schema.Tabler, on ...field.Expr) IUsersDODo {
+func (u userDo) RightJoin(table schema.Tabler, on ...field.Expr) IUserDo {
 	return u.withDO(u.DO.RightJoin(table, on...))
 }
 
-func (u usersDODo) Group(cols ...field.Expr) IUsersDODo {
+func (u userDo) Group(cols ...field.Expr) IUserDo {
 	return u.withDO(u.DO.Group(cols...))
 }
 
-func (u usersDODo) Having(conds ...gen.Condition) IUsersDODo {
+func (u userDo) Having(conds ...gen.Condition) IUserDo {
 	return u.withDO(u.DO.Having(conds...))
 }
 
-func (u usersDODo) Limit(limit int) IUsersDODo {
+func (u userDo) Limit(limit int) IUserDo {
 	return u.withDO(u.DO.Limit(limit))
 }
 
-func (u usersDODo) Offset(offset int) IUsersDODo {
+func (u userDo) Offset(offset int) IUserDo {
 	return u.withDO(u.DO.Offset(offset))
 }
 
-func (u usersDODo) Scopes(funcs ...func(gen.Dao) gen.Dao) IUsersDODo {
+func (u userDo) Scopes(funcs ...func(gen.Dao) gen.Dao) IUserDo {
 	return u.withDO(u.DO.Scopes(funcs...))
 }
 
-func (u usersDODo) Unscoped() IUsersDODo {
+func (u userDo) Unscoped() IUserDo {
 	return u.withDO(u.DO.Unscoped())
 }
 
-func (u usersDODo) Create(values ...*entity.UsersDO) error {
+func (u userDo) Create(values ...*model.User) error {
 	if len(values) == 0 {
 		return nil
 	}
 	return u.DO.Create(values)
 }
 
-func (u usersDODo) CreateInBatches(values []*entity.UsersDO, batchSize int) error {
+func (u userDo) CreateInBatches(values []*model.User, batchSize int) error {
 	return u.DO.CreateInBatches(values, batchSize)
 }
 
 // Save : !!! underlying implementation is different with GORM
 // The method is equivalent to executing the statement: db.Clauses(clause.OnConflict{UpdateAll: true}).Create(values)
-func (u usersDODo) Save(values ...*entity.UsersDO) error {
+func (u userDo) Save(values ...*model.User) error {
 	if len(values) == 0 {
 		return nil
 	}
 	return u.DO.Save(values)
 }
 
-func (u usersDODo) First() (*entity.UsersDO, error) {
+func (u userDo) First() (*model.User, error) {
 	if result, err := u.DO.First(); err != nil {
 		return nil, err
 	} else {
-		return result.(*entity.UsersDO), nil
+		return result.(*model.User), nil
 	}
 }
 
-func (u usersDODo) Take() (*entity.UsersDO, error) {
+func (u userDo) Take() (*model.User, error) {
 	if result, err := u.DO.Take(); err != nil {
 		return nil, err
 	} else {
-		return result.(*entity.UsersDO), nil
+		return result.(*model.User), nil
 	}
 }
 
-func (u usersDODo) Last() (*entity.UsersDO, error) {
+func (u userDo) Last() (*model.User, error) {
 	if result, err := u.DO.Last(); err != nil {
 		return nil, err
 	} else {
-		return result.(*entity.UsersDO), nil
+		return result.(*model.User), nil
 	}
 }
 
-func (u usersDODo) Find() ([]*entity.UsersDO, error) {
+func (u userDo) Find() ([]*model.User, error) {
 	result, err := u.DO.Find()
-	return result.([]*entity.UsersDO), err
+	return result.([]*model.User), err
 }
 
-func (u usersDODo) FindInBatch(batchSize int, fc func(tx gen.Dao, batch int) error) (results []*entity.UsersDO, err error) {
-	buf := make([]*entity.UsersDO, 0, batchSize)
+func (u userDo) FindInBatch(batchSize int, fc func(tx gen.Dao, batch int) error) (results []*model.User, err error) {
+	buf := make([]*model.User, 0, batchSize)
 	err = u.DO.FindInBatches(&buf, batchSize, func(tx gen.Dao, batch int) error {
 		defer func() { results = append(results, buf...) }()
 		return fc(tx, batch)
@@ -327,49 +327,49 @@ func (u usersDODo) FindInBatch(batchSize int, fc func(tx gen.Dao, batch int) err
 	return results, err
 }
 
-func (u usersDODo) FindInBatches(result *[]*entity.UsersDO, batchSize int, fc func(tx gen.Dao, batch int) error) error {
+func (u userDo) FindInBatches(result *[]*model.User, batchSize int, fc func(tx gen.Dao, batch int) error) error {
 	return u.DO.FindInBatches(result, batchSize, fc)
 }
 
-func (u usersDODo) Attrs(attrs ...field.AssignExpr) IUsersDODo {
+func (u userDo) Attrs(attrs ...field.AssignExpr) IUserDo {
 	return u.withDO(u.DO.Attrs(attrs...))
 }
 
-func (u usersDODo) Assign(attrs ...field.AssignExpr) IUsersDODo {
+func (u userDo) Assign(attrs ...field.AssignExpr) IUserDo {
 	return u.withDO(u.DO.Assign(attrs...))
 }
 
-func (u usersDODo) Joins(fields ...field.RelationField) IUsersDODo {
+func (u userDo) Joins(fields ...field.RelationField) IUserDo {
 	for _, _f := range fields {
 		u = *u.withDO(u.DO.Joins(_f))
 	}
 	return &u
 }
 
-func (u usersDODo) Preload(fields ...field.RelationField) IUsersDODo {
+func (u userDo) Preload(fields ...field.RelationField) IUserDo {
 	for _, _f := range fields {
 		u = *u.withDO(u.DO.Preload(_f))
 	}
 	return &u
 }
 
-func (u usersDODo) FirstOrInit() (*entity.UsersDO, error) {
+func (u userDo) FirstOrInit() (*model.User, error) {
 	if result, err := u.DO.FirstOrInit(); err != nil {
 		return nil, err
 	} else {
-		return result.(*entity.UsersDO), nil
+		return result.(*model.User), nil
 	}
 }
 
-func (u usersDODo) FirstOrCreate() (*entity.UsersDO, error) {
+func (u userDo) FirstOrCreate() (*model.User, error) {
 	if result, err := u.DO.FirstOrCreate(); err != nil {
 		return nil, err
 	} else {
-		return result.(*entity.UsersDO), nil
+		return result.(*model.User), nil
 	}
 }
 
-func (u usersDODo) FindByPage(offset int, limit int) (result []*entity.UsersDO, count int64, err error) {
+func (u userDo) FindByPage(offset int, limit int) (result []*model.User, count int64, err error) {
 	result, err = u.Offset(offset).Limit(limit).Find()
 	if err != nil {
 		return
@@ -384,7 +384,7 @@ func (u usersDODo) FindByPage(offset int, limit int) (result []*entity.UsersDO, 
 	return
 }
 
-func (u usersDODo) ScanByPage(result interface{}, offset int, limit int) (count int64, err error) {
+func (u userDo) ScanByPage(result interface{}, offset int, limit int) (count int64, err error) {
 	count, err = u.Count()
 	if err != nil {
 		return
@@ -394,15 +394,15 @@ func (u usersDODo) ScanByPage(result interface{}, offset int, limit int) (count 
 	return
 }
 
-func (u usersDODo) Scan(result interface{}) (err error) {
+func (u userDo) Scan(result interface{}) (err error) {
 	return u.DO.Scan(result)
 }
 
-func (u usersDODo) Delete(models ...*entity.UsersDO) (result gen.ResultInfo, err error) {
+func (u userDo) Delete(models ...*model.User) (result gen.ResultInfo, err error) {
 	return u.DO.Delete(models)
 }
 
-func (u *usersDODo) withDO(do gen.Dao) *usersDODo {
+func (u *userDo) withDO(do gen.Dao) *userDo {
 	u.DO = *do.(*gen.DO)
 	return u
 }

@@ -3,5 +3,5 @@ package model
 type Subscriber struct {
 	BaseModel
 	Email  string // 邮箱
-	active bool   // 是否激活
+	Active bool   // 是否激活
 }

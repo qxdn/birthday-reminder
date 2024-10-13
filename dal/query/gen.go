@@ -16,44 +16,44 @@ import (
 )
 
 var (
-	Q            = new(Query)
-	CharactersDO *charactersDO
-	SubscriberDO *subscriberDO
-	UsersDO      *usersDO
+	Q          = new(Query)
+	Character  *character
+	Subscriber *subscriber
+	User       *user
 )
 
 func SetDefault(db *gorm.DB, opts ...gen.DOOption) {
 	*Q = *Use(db, opts...)
-	CharactersDO = &Q.CharactersDO
-	SubscriberDO = &Q.SubscriberDO
-	UsersDO = &Q.UsersDO
+	Character = &Q.Character
+	Subscriber = &Q.Subscriber
+	User = &Q.User
 }
 
 func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 	return &Query{
-		db:           db,
-		CharactersDO: newCharactersDO(db, opts...),
-		SubscriberDO: newSubscriberDO(db, opts...),
-		UsersDO:      newUsersDO(db, opts...),
+		db:         db,
+		Character:  newCharacter(db, opts...),
+		Subscriber: newSubscriber(db, opts...),
+		User:       newUser(db, opts...),
 	}
 }
 
 type Query struct {
 	db *gorm.DB
 
-	CharactersDO charactersDO
-	SubscriberDO subscriberDO
-	UsersDO      usersDO
+	Character  character
+	Subscriber subscriber
+	User       user
 }
 
 func (q *Query) Available() bool { return q.db != nil }
 
 func (q *Query) clone(db *gorm.DB) *Query {
 	return &Query{
-		db:           db,
-		CharactersDO: q.CharactersDO.clone(db),
-		SubscriberDO: q.SubscriberDO.clone(db),
-		UsersDO:      q.UsersDO.clone(db),
+		db:         db,
+		Character:  q.Character.clone(db),
+		Subscriber: q.Subscriber.clone(db),
+		User:       q.User.clone(db),
 	}
 }
 
@@ -67,24 +67,24 @@ func (q *Query) WriteDB() *Query {
 
 func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 	return &Query{
-		db:           db,
-		CharactersDO: q.CharactersDO.replaceDB(db),
-		SubscriberDO: q.SubscriberDO.replaceDB(db),
-		UsersDO:      q.UsersDO.replaceDB(db),
+		db:         db,
+		Character:  q.Character.replaceDB(db),
+		Subscriber: q.Subscriber.replaceDB(db),
+		User:       q.User.replaceDB(db),
 	}
 }
 
 type queryCtx struct {
-	CharactersDO ICharactersDODo
-	SubscriberDO ISubscriberDODo
-	UsersDO      IUsersDODo
+	Character  ICharacterDo
+	Subscriber ISubscriberDo
+	User       IUserDo
 }
 
 func (q *Query) WithContext(ctx context.Context) *queryCtx {
 	return &queryCtx{
-		CharactersDO: q.CharactersDO.WithContext(ctx),
-		SubscriberDO: q.SubscriberDO.WithContext(ctx),
-		UsersDO:      q.UsersDO.WithContext(ctx),
+		Character:  q.Character.WithContext(ctx),
+		Subscriber: q.Subscriber.WithContext(ctx),
+		User:       q.User.WithContext(ctx),
 	}
 }
 
