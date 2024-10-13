@@ -44,3 +44,7 @@ func ReadConfig() *ApplicationConfig {
 	viper.WatchConfig()
 	return config
 }
+
+func (app *ApplicationConfig) GetDsn() string {
+	return app.Config.DB.GetDsn()
+}
