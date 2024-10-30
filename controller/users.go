@@ -1,20 +1,24 @@
 package controller
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/gin-gonic/gin"
+	"github.com/qxdn/birthday/dto/requests"
+	"github.com/qxdn/birthday/util/validateutil"
+)
 
 type UserController struct {
 }
 
-type LoginRequest struct {
-	Username string `json:"username" binding:"required"`
-	Password string `json:"password" binding:"required"`
-}
-
 // 登录请求
 func (u *UserController) Login(ctx *gin.Context) {
-	request := LoginRequest{}
+	request := requests.LoginRequest{}
 	// TODO:
 	if err := ctx.ShouldBindJSON(&request); err != nil {
+		ctx.JSON(400, gin.H{"error": err.Error()})
+		return
+	}
+	err := validateutil.ValidateStruct(request)
+	if err != nil {
 		ctx.JSON(400, gin.H{"error": err.Error()})
 		return
 	}
