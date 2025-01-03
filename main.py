@@ -59,26 +59,30 @@ with open("./result/log.json", "w", encoding="utf-8") as f:
 task = []
 
 
-def get_character_images_task(data, f):
-    print(f"Getting images for id:{data['bangumiId']} name: {data['name']}")
-    character_id = data["bangumiId"]
-    images = get_character_images(character_id)
-    data["images"] = images
-    print(f"Got images for id:{data['bangumiId']} name: {data['name']} done")
-    # data.remove("bangumiId")
-    f.write(json.dumps(data, ensure_ascii=False) + "\n")
+def get_character_images_task(data, f, ef):
+    try:
+        print(f"Getting images for id:{data['bangumiId']} name: {data['name']}")
+        character_id = data["bangumiId"]
+        images = get_character_images(character_id)
+        data["images"] = images
+        print(f"Got images for id:{data['bangumiId']} name: {data['name']} done")
+        # data.remove("bangumiId")
+        f.write(json.dumps(data, ensure_ascii=False) + "\n")
+    except Exception as e:
+        print(f"Error for id:{data['bangumiId']} name: {data['name']} reason: {e}")
+        ef.write(f"{data['bangumiId']} {data['name']}\n")
     return data
 
+with open("./result/error_images", "w", encoding="utf-8") as ef:
+    with open("./result/log3.jsonl", "w", encoding="utf-8") as f:
+        with ThreadPoolExecutor(max_workers=20) as executor:
+            for data in data_list:
+                #if data["bangumiId"] <= 120000:
+                #    continue
+                task.append(executor.submit(get_character_images_task, data, f, ef))
 
-with open("./log3.jsonl", "w", encoding="utf-8") as f:
-    with ThreadPoolExecutor(max_workers=20) as executor:
-        for data in data_list:
-            #if data["bangumiId"] <= 120000:
-            #    continue
-            task.append(executor.submit(get_character_images_task, data, f))
+            for t in task:
+                data = t.result()
+            #    f.write(json.dumps(data, ensure_ascii=False) + "\n")
 
-        for t in task:
-            data = t.result()
-        #    f.write(json.dumps(data, ensure_ascii=False) + "\n")
-
-        print("All done")
+            print("All done")
