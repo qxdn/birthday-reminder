@@ -42,4 +42,9 @@ start.ps1
 /docs/node_modules
 /docs/.vitepress/cache
 
+# ts
+/node_modules
+
+# bangumi数据
 /data
+/result
