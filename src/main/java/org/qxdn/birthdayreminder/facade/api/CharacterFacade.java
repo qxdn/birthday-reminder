@@ -7,7 +7,6 @@ import org.qxdn.birthdayreminder.model.dto.request.UpdateCharacterRequest;
 import org.qxdn.birthdayreminder.model.dto.response.BaseResponse;
 import org.qxdn.birthdayreminder.model.dto.response.vo.CharacterVO;
 
-import java.util.Date;
 import java.util.List;
 
 public interface CharacterFacade {
