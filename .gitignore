@@ -41,3 +41,6 @@ start.ps1
 
 /docs/node_modules
 /docs/.vitepress/cache
+
+/node_modules
+/result
