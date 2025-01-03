@@ -18,6 +18,8 @@ public class CharacterVO {
 
     private List<String> otherName = new ArrayList<>();
 
+    private Long bangumiId;
+
     private String birthday;
 
     private List<String> images = new ArrayList<>();

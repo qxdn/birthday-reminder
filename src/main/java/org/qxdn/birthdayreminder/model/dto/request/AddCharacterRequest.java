@@ -1,6 +1,5 @@
 package org.qxdn.birthdayreminder.model.dto.request;
 
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -24,6 +23,11 @@ public class AddCharacterRequest {
     @NotNull(message = "其他名不能为空")
     protected List<String> otherName = new ArrayList<>();
 
+
+    /**
+     * bangumi的id
+     */
+    protected Long bangumiId;
 
     protected String birthday;
 

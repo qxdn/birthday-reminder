@@ -24,6 +24,12 @@ import java.util.Objects;
 public class CharacterDO extends BaseDO {
 
     /**
+     * bangumi的id
+     */
+    @Column(name = "bangumi_id",nullable = false, unique = true, updatable = false)
+    private Long bangumiId;
+
+    /**
      * 角色名称
      */
     @Column(name = "name",nullable = false)

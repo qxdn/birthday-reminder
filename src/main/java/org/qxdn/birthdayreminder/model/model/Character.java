@@ -28,6 +28,11 @@ public class Character extends BaseModel {
 
     private Integer birthDay;
 
+    /**
+     * bangumi的id
+     */
+    private Long bangumiId;
+
     private CharacterContent content = new CharacterContent();
 
     private String comment;
